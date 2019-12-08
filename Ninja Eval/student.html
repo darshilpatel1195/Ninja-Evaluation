@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ninja Bucks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyANb9biku3lYEm0VF1u2JH1d2gcGMyIzmU",
+        authDomain: "ninja-info-c66c8.firebaseapp.com",
+        databaseURL: "https://ninja-info-c66c8.firebaseio.com",
+        projectId: "ninja-info-c66c8",
+        storageBucket: "ninja-info-c66c8.appspot.com",
+        messagingSenderId: "596134659505",
+        appId: "1:596134659505:web:8eb85502d929cf7b9d6990"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      var database = firebase.database();
+        
+        function showModal(name){
+            window.location.href = "./student.html"
+        }
+        
+        if(getUrlVars()["name"])
+            firebase.database().ref(decodeURI(getUrlVars()["name"])).once('value', function(snapshot) {
+                document.getElementById('name').value = snapshot.val()["name"] 
+                document.getElementById('belt').value = snapshot.val()["belt"]
+                document.getElementById('ScratchPassword').value = snapshot.val()["ScratchPassword"]
+            });
+      
+        function update(){
+            firebase.database().ref(document.getElementById('name').value).update({
+                name: document.getElementById('name').value,
+                belt: document.getElementById('belt').value,
+                ScratchPassword: document.getElementById('ScratchPassword').value,
+            })
+        }
+        
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+        
+        function back(){
+            window.location.href = "./index.html"
+        }
+        
+    </script>
+  </head>
+  <body style="background-color:black">
+    <div class="container">
+    <br>
+      <button type="button" class="btn btn-danger btn-lg btn-block" onclick="back()">Back</button>
+      <br>
+      <br>
+    <div>
+        <input id="name" type="text" class="form-control" placeholder="Name">
+        <br>
+        <select class="form-control" id="belt">
+          <option value="White Belt">White Belt</option>
+          <option value="Yellow Belt">Yellow Belt</option>
+          <option value="Orange Belt">Orange Belt</option>
+            <option value="Orange Belt">GreenBelt Belt</option>
+        </select>
+        <br>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Scratch Password</span>
+          </div>
+            <input id="ScratchPassword" type="text" class="form-control" placeholder="Scratch Password">
+        </div>
+        <br>
+        <br>
+        <button type="button" class="btn btn-outline-success btn-lg btn-block" onclick="update()">Update</button>
+    </div>
+      </div>
+    
+      
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
