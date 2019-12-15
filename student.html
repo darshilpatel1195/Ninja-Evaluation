@@ -55,18 +55,10 @@
                 table.innerHTML = "";
                 for(projName in snapshot.val()[snapshot.val()["belt"]]){
                   var project = snapshot.val()[snapshot.val()["belt"]][projName]
-                  console.log(`
-                      <tr>
-                            <th scope="row">`+projName+`</th>
-                            <th scope="row"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
-                            <th scope="row"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
-                      </tr>
-                  `)
-                  table.innerHTML+=`
-                      <tr>
-                            <th scope="row">`+projName+`</th>
-                            <th scope="row"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
-                            <th scope="row"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
+                  table.innerHTML+=`<tr class="projectRow">
+                            <th scope="row" class="name">`+projName+`</th>
+                            <th scope="row" class="completed"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
+                            <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
                       </tr>
                   `
                 }
@@ -86,7 +78,8 @@
               }
             }
           }
-          firebase.database().ref(document.getElementById('name').value).update(obj);
+          firebase.database().ref(document.getElementById('name').value).update(obj).then(()=>{
+            console.log(obj)
             firebase.database().ref(document.getElementById('name').value).update({
                 name: document.getElementById('name').value,
                 belt: document.getElementById('belt').value,
@@ -99,6 +92,7 @@
             }).then(()=>{
                 back();
             })
+          });
         }
 
         function getUrlVars() {
@@ -113,8 +107,9 @@
             window.location.href = "./index.html"
         }
 
+        var project = [];
         function beltInput(value){
-          var project = [];
+
           if(value=="White Belt")
             project = ["01-01 ZOMBIE ISLAND", "01-02 FUN WITH SHAPES", "01-03 PROVE YOURSELF", "02-01 SPIN A STAR", "02-02 MULTIPLE STARS", "02-03 SPIN ALL OBJECTS", "02-04 SPIN COUNTER-CLOCKWISE", "02-05 SPIN PROVE YOURSELF", "03-01 SIDE WALL BOUNCE", "03-02 LASER BEAM POINTER", "03-03 BASIC SHOOTER", "03-04 PROVE YOURSELF BUBBLES", "04-01 PONG", "04-02 BASIC PONG WITH KEYBOARD", "04-03 TWO PLAYER PONG", "04-04 PROVE YOURSELF (TWO PLAYER PONG)", "05-01 COCONUT CHAOS", "OPTIONAL - 07-01 STARTAG (BLOCKS)", "OPTIONAL - 07-01 STARTAG (JAVASCRIPT)", "OPTIONAL - 07-02 AVOID THE BUGS (BLOCKS)", "OPTIONAL - 07-02 AVOID THE BUGS (JAVASCRIPT)"];
 
@@ -124,10 +119,33 @@
             project = ["INTRODUCTION", "DOJO PRACTICE", "SHURIKEN DODGE", "NINJA RACE", "BALL TOSS", "DUNGEON ESCAPE", "SCRAMBLE", "NINJA PUZZLE", "WALL BLASTER 2", "FLYING NINJA", "SHUT THE BOX", "CODE BREAKER", "HANGMAN", "THE SKY IS FALLING", "ENDLESS RUN", "WAR", "WORD SCRAMBLE", "SERVER", "ODDBALL", "CIRCUS BOUNCE", "TOWER OF HANOI"]
           if(value=="Green Belt")
             project = ["ROOFTOP RUNNER", "NINJA PUZZLE 2", "BELLS AND WHISTLES", "MAKING YOUR OWN AVATAR", "MOVING YOUR AVATAR", "VANISHING NINJA", "BASIC PLATFORMING", "EXPLORE THE FOREST", "SPACE BUMPERS", "NINJA QUEST", "MOVING PLATFORMS", "SCAVENGER HUNT", "SPY", "SNOWBALL FIGHT", "TANK BATTLE", "ROCK CLIMBING", "INTERSECT", "SNEAKY", "RHYTHM", "BARREL JUMP"]
+            console.log(project);
+          firebase.database().ref(document.getElementById('name').value).once("value",function (snapshot){
+            var table = document.getElementById("projects");
+            console.log(table);
+            table.innerHTML="";
+            console.log(snapshot.val()[value])
+            if(snapshot.val()[value]){
+              for(projName in snapshot.val()[value]){
+                var project = snapshot.val()[value][projName]
+                console.log(project)
+                table.innerHTML+=`<tr class="projectRow">
+                          <th scope="row" class="name">`+projName+`</th>
+                          <th scope="row" class="completed"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
+                          <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
+                    </tr>
+                `
+              }
+            }else{
+              updateOutSideOfFirebase()
+            }
+          }.bind( {project} ))
 
+        }
+
+        function updateOutSideOfFirebase(){
           var table = document.getElementById("projects");
-          console.log(table)
-          table.innerHTML="";
+          console.log(project);
           for(projName of project){
             table.innerHTML+=`
                 <tr class="projectRow">
