@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Ninja Bucks</title>
+    <title>Ninja Eval</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -14,6 +14,14 @@
     <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 
     <script>
+    /*
+    SCRAPER
+    var arr = []
+    for(el of document.getElementsByTagName("h3")){
+        arr.push(el.innerText)
+    }
+    console.log(arr)
+    */
       // Your web app's Firebase configuration
       var firebaseConfig = {
         apiKey: "AIzaSyANb9biku3lYEm0VF1u2JH1d2gcGMyIzmU",
@@ -28,14 +36,14 @@
       firebase.initializeApp(firebaseConfig);
 
       var database = firebase.database();
-        
+
         function showModal(name){
             window.location.href = "./student.html"
         }
-        
+
         if(getUrlVars()["name"])
-            firebase.database().ref(decodeURI(getUrlVars()["name"])).once('value', function(snapshot) {
-                document.getElementById('name').value = snapshot.val()["name"] 
+            firebase.database().ref(decodeURI(getUrlVars()["name"])).on('value', function(snapshot) {
+                document.getElementById('name').value = snapshot.val()["name"]
                 document.getElementById('belt').value = snapshot.val()["belt"]
                 document.getElementById('ScratchUsername').value = snapshot.val()["ScratchUsername"]
                 document.getElementById('ScratchPassword').value = snapshot.val()["ScratchPassword"]
@@ -43,9 +51,42 @@
                 document.getElementById('replPassword').value = snapshot.val()["replPassword"]
                 document.getElementById('typingUsername').value = snapshot.val()["typingUsername"]
                 document.getElementById('typingPassword').value = snapshot.val()["typingPassword"]
+                var table = document.getElementById("projects");
+                table.innerHTML = "";
+                for(projName in snapshot.val()[snapshot.val()["belt"]]){
+                  var project = snapshot.val()[snapshot.val()["belt"]][projName]
+                  console.log(`
+                      <tr>
+                            <th scope="row">`+projName+`</th>
+                            <th scope="row"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
+                            <th scope="row"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
+                      </tr>
+                  `)
+                  table.innerHTML+=`
+                      <tr>
+                            <th scope="row">`+projName+`</th>
+                            <th scope="row"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
+                            <th scope="row"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
+                      </tr>
+                  `
+                }
             });
-      
+          else
+            setTimeout(()=>beltInput("White Belt"),1000)
+
+
         function update(){
+          var obj = {}
+          if(document.getElementById('belt').value){
+            obj[document.getElementById('belt').value]={}
+            for(row of document.getElementsByClassName("projectRow")){
+              obj[document.getElementById('belt').value][row.getElementsByClassName("name")[0].innerText]={
+                completed:row.getElementsByClassName("completed")[0].checked?true:false,
+                comment:row.getElementsByClassName("comment")[0].innerText
+              }
+            }
+          }
+          firebase.database().ref(document.getElementById('name').value).update(obj);
             firebase.database().ref(document.getElementById('name').value).update({
                 name: document.getElementById('name').value,
                 belt: document.getElementById('belt').value,
@@ -59,7 +100,7 @@
                 back();
             })
         }
-        
+
         function getUrlVars() {
             var vars = {};
             var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -67,11 +108,48 @@
             });
             return vars;
         }
-        
+
         function back(){
             window.location.href = "./index.html"
         }
-        
+
+        function beltInput(value){
+          var project = [];
+          if(value=="White Belt")
+            project = ["01-01 ZOMBIE ISLAND", "01-02 FUN WITH SHAPES", "01-03 PROVE YOURSELF", "02-01 SPIN A STAR", "02-02 MULTIPLE STARS", "02-03 SPIN ALL OBJECTS", "02-04 SPIN COUNTER-CLOCKWISE", "02-05 SPIN PROVE YOURSELF", "03-01 SIDE WALL BOUNCE", "03-02 LASER BEAM POINTER", "03-03 BASIC SHOOTER", "03-04 PROVE YOURSELF BUBBLES", "04-01 PONG", "04-02 BASIC PONG WITH KEYBOARD", "04-03 TWO PLAYER PONG", "04-04 PROVE YOURSELF (TWO PLAYER PONG)", "05-01 COCONUT CHAOS", "OPTIONAL - 07-01 STARTAG (BLOCKS)", "OPTIONAL - 07-01 STARTAG (JAVASCRIPT)", "OPTIONAL - 07-02 AVOID THE BUGS (BLOCKS)", "OPTIONAL - 07-02 AVOID THE BUGS (JAVASCRIPT)"];
+
+          if(value=="Yellow Belt")
+            project = ["01-01 RAIN CATCHER PART 1", "01-02 RAIN CATCHER PART 2", "01-03 RAIN CATCHER PART 3", "01-04 RAIN CATCHER PART 4", "01-05 RAIN CATCHER PART 5", "01-06 RAIN CATCHER PART 6", "PROVE YOURSELF - RAIN CATCHER COMPLETE", "PROVE YOURSELF - COLOR CHANGE", "02-01 METEORS PART 1", "02-02 METEORS PART 2", "PROVE YOURSELF - ROLLING DICE", "03-01 HIDING NINJA", "03-02 HIDING NINJAS", "03-03 WHACK A NINJA", "03-04 NINJA SUPPLIES", "PROVE YOURSELF - WHAT'S INSIDE?", "PROVE YOURSELF - ROCK PAPER SCISSORS", "PROVE YOURSELF - ROBOT BUILDER", "04-01 BUMPER CAR", "04-02 BALLOON PROTECT", "04-03 NINJA SNACKS", "04-04 SHURIKEN TOSS PART 1", "04-05 SPACE TOUR", "04-06 SHURIKEN TOSS PART 2", "04-07 NINJA BATTLE", "PROVE YOURSELF - CANDY SORT", "05-01 STARSCAPE", "05-02 ZAPPER PART 1", "05-03 ZAPPER PART 2", "05-04 WALL BLASTER", "PROVE YOURSELF - COLOR CHANGE PART 2", "PROVE YOURSELF - LIFT OFF", "PROVE YOURSELF - BUBBLES", "06-01 METEORS DELUXE", "PROVE YOURSELF - BUG INVADERS"];
+          if(value=="Orange Belt")
+            project = ["INTRODUCTION", "DOJO PRACTICE", "SHURIKEN DODGE", "NINJA RACE", "BALL TOSS", "DUNGEON ESCAPE", "SCRAMBLE", "NINJA PUZZLE", "WALL BLASTER 2", "FLYING NINJA", "SHUT THE BOX", "CODE BREAKER", "HANGMAN", "THE SKY IS FALLING", "ENDLESS RUN", "WAR", "WORD SCRAMBLE", "SERVER", "ODDBALL", "CIRCUS BOUNCE", "TOWER OF HANOI"]
+          if(value=="Green Belt")
+            project = ["ROOFTOP RUNNER", "NINJA PUZZLE 2", "BELLS AND WHISTLES", "MAKING YOUR OWN AVATAR", "MOVING YOUR AVATAR", "VANISHING NINJA", "BASIC PLATFORMING", "EXPLORE THE FOREST", "SPACE BUMPERS", "NINJA QUEST", "MOVING PLATFORMS", "SCAVENGER HUNT", "SPY", "SNOWBALL FIGHT", "TANK BATTLE", "ROCK CLIMBING", "INTERSECT", "SNEAKY", "RHYTHM", "BARREL JUMP"]
+
+          var table = document.getElementById("projects");
+          console.log(table)
+          table.innerHTML="";
+          for(projName of project){
+            table.innerHTML+=`
+                <tr class="projectRow">
+                      <th scope="row" class="name">`+projName+`</th>
+                      <th scope="row" class="completed"><input type="checkbox" value="`+projName+`"/></th>
+                      <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;"></div></th>
+                </tr>
+            `
+          }
+        }
+
+        document.addEventListener('input', function (event) {
+
+        	// Only run on our select menu
+        	if (event.target.id !== 'belt') return;
+
+            beltInput(event.target.value)
+
+        	// Do stuff...
+
+        }, false);
+
     </script>
   </head>
   <body style="background-color:black">
@@ -87,8 +165,21 @@
           <option value="White Belt">White Belt</option>
           <option value="Yellow Belt">Yellow Belt</option>
           <option value="Orange Belt">Orange Belt</option>
-            <option value="Orange Belt">GreenBelt Belt</option>
+          <option value="Orange Belt">GreenBelt Belt</option>
         </select>
+        <br>
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Project Name</th>
+              <th scope="col">Completed</th>
+              <th scope="col">Comment</th>
+            </tr>
+          </thead>
+          <tbody id="projects">
+
+          </tbody>
+        </table>
         <br>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -137,8 +228,8 @@
         <button type="button" class="btn btn-outline-success btn-lg btn-block" onclick="update()">Update</button>
     </div>
       </div>
-    
-      
+
+
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
