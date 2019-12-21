@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Ninja Eval</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
 
@@ -14,7 +22,7 @@
     <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 
     <script>
-    /*
+      /*
     SCRAPER
     var arr = []
     for(el of document.getElementsByTagName("h3")){
@@ -37,155 +45,322 @@
 
       var database = firebase.database();
 
-        function showModal(name){
-            window.location.href = "./student.html"
-        }
+      function showModal(name) {
+        window.location.href = "./student.html";
+      }
 
-        if(getUrlVars()["name"])
-            firebase.database().ref(decodeURI(getUrlVars()["name"])).on('value', function(snapshot) {
-                document.getElementById('name').value = snapshot.val()["name"]
-                document.getElementById('belt').value = snapshot.val()["belt"]
-                document.getElementById('ScratchUsername').value = snapshot.val()["ScratchUsername"]
-                document.getElementById('ScratchPassword').value = snapshot.val()["ScratchPassword"]
-                document.getElementById('replUsername').value = snapshot.val()["replUsername"]
-                document.getElementById('replPassword').value = snapshot.val()["replPassword"]
-                document.getElementById('typingUsername').value = snapshot.val()["typingUsername"]
-                document.getElementById('typingPassword').value = snapshot.val()["typingPassword"]
-                var table = document.getElementById("projects");
-                table.innerHTML = "";
-                for(projName in snapshot.val()[snapshot.val()["belt"]]){
-                  var project = snapshot.val()[snapshot.val()["belt"]][projName]
-                  table.innerHTML+=`<tr class="projectRow">
-                            <th scope="row" class="name">`+projName+`</th>
-                            <th scope="row" class="completed"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
-                            <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
-                      </tr>
-                  `
-                }
-            });
-          else
-            setTimeout(()=>beltInput("White Belt"),1000)
-
-
-        function update(){
-          var obj = {}
-          if(document.getElementById('belt').value){
-            obj[document.getElementById('belt').value]={}
-            for(row of document.getElementsByClassName("projectRow")){
-              obj[document.getElementById('belt').value][row.getElementsByClassName("name")[0].innerText]={
-                completed:row.getElementsByClassName("completed")[0].checked?true:false,
-                comment:row.getElementsByClassName("comment")[0].innerText
-              }
-            }
-          }
-          firebase.database().ref(document.getElementById('name').value).update(obj).then(()=>{
-            console.log(obj)
-            firebase.database().ref(document.getElementById('name').value).update({
-                name: document.getElementById('name').value,
-                belt: document.getElementById('belt').value,
-                ScratchUsername: document.getElementById('ScratchPassword').value,
-                ScratchPassword: document.getElementById('ScratchPassword').value,
-                replUsername: document.getElementById('replUsername').value,
-                replPassword: document.getElementById('replPassword').value,
-                typingUsername: document.getElementById('typingUsername').value,
-                typingPassword: document.getElementById('typingPassword').value,
-            }).then(()=>{
-                back();
-            })
-          });
-        }
-
-        function getUrlVars() {
-            var vars = {};
-            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
-            });
-            return vars;
-        }
-
-        function back(){
-            window.location.href = "./index.html"
-        }
-
-        var project = [];
-        function beltInput(value){
-
-          if(value=="White Belt")
-            project = ["01-01 ZOMBIE ISLAND", "01-02 FUN WITH SHAPES", "01-03 PROVE YOURSELF", "02-01 SPIN A STAR", "02-02 MULTIPLE STARS", "02-03 SPIN ALL OBJECTS", "02-04 SPIN COUNTER-CLOCKWISE", "02-05 SPIN PROVE YOURSELF", "03-01 SIDE WALL BOUNCE", "03-02 LASER BEAM POINTER", "03-03 BASIC SHOOTER", "03-04 PROVE YOURSELF BUBBLES", "04-01 PONG", "04-02 BASIC PONG WITH KEYBOARD", "04-03 TWO PLAYER PONG", "04-04 PROVE YOURSELF (TWO PLAYER PONG)", "05-01 COCONUT CHAOS", "OPTIONAL - 07-01 STARTAG (BLOCKS)", "OPTIONAL - 07-01 STARTAG (JAVASCRIPT)", "OPTIONAL - 07-02 AVOID THE BUGS (BLOCKS)", "OPTIONAL - 07-02 AVOID THE BUGS (JAVASCRIPT)"];
-
-          if(value=="Yellow Belt")
-            project = ["01-01 RAIN CATCHER PART 1", "01-02 RAIN CATCHER PART 2", "01-03 RAIN CATCHER PART 3", "01-04 RAIN CATCHER PART 4", "01-05 RAIN CATCHER PART 5", "01-06 RAIN CATCHER PART 6", "PROVE YOURSELF - RAIN CATCHER COMPLETE", "PROVE YOURSELF - COLOR CHANGE", "02-01 METEORS PART 1", "02-02 METEORS PART 2", "PROVE YOURSELF - ROLLING DICE", "03-01 HIDING NINJA", "03-02 HIDING NINJAS", "03-03 WHACK A NINJA", "03-04 NINJA SUPPLIES", "PROVE YOURSELF - WHAT'S INSIDE?", "PROVE YOURSELF - ROCK PAPER SCISSORS", "PROVE YOURSELF - ROBOT BUILDER", "04-01 BUMPER CAR", "04-02 BALLOON PROTECT", "04-03 NINJA SNACKS", "04-04 SHURIKEN TOSS PART 1", "04-05 SPACE TOUR", "04-06 SHURIKEN TOSS PART 2", "04-07 NINJA BATTLE", "PROVE YOURSELF - CANDY SORT", "05-01 STARSCAPE", "05-02 ZAPPER PART 1", "05-03 ZAPPER PART 2", "05-04 WALL BLASTER", "PROVE YOURSELF - COLOR CHANGE PART 2", "PROVE YOURSELF - LIFT OFF", "PROVE YOURSELF - BUBBLES", "06-01 METEORS DELUXE", "PROVE YOURSELF - BUG INVADERS"];
-          if(value=="Orange Belt")
-            project = ["INTRODUCTION", "DOJO PRACTICE", "SHURIKEN DODGE", "NINJA RACE", "BALL TOSS", "DUNGEON ESCAPE", "SCRAMBLE", "NINJA PUZZLE", "WALL BLASTER 2", "FLYING NINJA", "SHUT THE BOX", "CODE BREAKER", "HANGMAN", "THE SKY IS FALLING", "ENDLESS RUN", "WAR", "WORD SCRAMBLE", "SERVER", "ODDBALL", "CIRCUS BOUNCE", "TOWER OF HANOI"]
-          if(value=="Green Belt")
-            project = ["ROOFTOP RUNNER", "NINJA PUZZLE 2", "BELLS AND WHISTLES", "MAKING YOUR OWN AVATAR", "MOVING YOUR AVATAR", "VANISHING NINJA", "BASIC PLATFORMING", "EXPLORE THE FOREST", "SPACE BUMPERS", "NINJA QUEST", "MOVING PLATFORMS", "SCAVENGER HUNT", "SPY", "SNOWBALL FIGHT", "TANK BATTLE", "ROCK CLIMBING", "INTERSECT", "SNEAKY", "RHYTHM", "BARREL JUMP"]
-            console.log(project);
-          firebase.database().ref(document.getElementById('name').value).once("value",function (snapshot){
+      if (getUrlVars()["name"])
+        firebase
+          .database()
+          .ref(decodeURI(getUrlVars()["name"]))
+          .on("value", function(snapshot) {
+            document.getElementById("name").value = snapshot.val()["name"];
+            document.getElementById("belt").value = snapshot.val()["belt"];
+            document.getElementById("ScratchUsername").value = snapshot.val()[
+              "ScratchUsername"
+            ];
+            document.getElementById("ScratchPassword").value = snapshot.val()[
+              "ScratchPassword"
+            ];
+            document.getElementById("replUsername").value = snapshot.val()[
+              "replUsername"
+            ];
+            document.getElementById("replPassword").value = snapshot.val()[
+              "replPassword"
+            ];
+            document.getElementById("typingUsername").value = snapshot.val()[
+              "typingUsername"
+            ];
+            document.getElementById("typingPassword").value = snapshot.val()[
+              "typingPassword"
+            ];
             var table = document.getElementById("projects");
-            console.log(table);
-            table.innerHTML="";
-            console.log(snapshot.val()[value])
-            if(snapshot.val()[value]){
-              for(projName in snapshot.val()[value]){
-                var project = snapshot.val()[value][projName]
-                console.log(project)
-                table.innerHTML+=`<tr class="projectRow">
-                          <th scope="row" class="name">`+projName+`</th>
-                          <th scope="row" class="completed"><input type="checkbox" value="`+projName+`" `+(project["completed"]?"checked":"")+`/></th>
-                          <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">`+project["comment"]+`</div></th>
-                    </tr>
-                `
-              }
-            }else{
-              updateOutSideOfFirebase()
+            table.innerHTML = "";
+            for (projName in snapshot.val()[snapshot.val()["belt"]]) {
+              var project = snapshot.val()[snapshot.val()["belt"]][projName];
+              table.innerHTML +=
+                `<tr class="projectRow">
+                            <th scope="row" class="name">` +
+                projName +
+                `</th>
+                            <th scope="row"><input type="checkbox" class="completed" value="` +
+                projName +
+                `" ` +
+                (project["completed"] ? "checked" : "") +
+                `/></th>
+                            <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">` +
+                project["comment"] +
+                `</div></th>
+                      </tr>
+                  `;
             }
-          }.bind( {project} ))
+          });
+      else setTimeout(() => beltInput("White Belt"), 1000);
 
+      function update() {
+        var obj = {};
+        if (document.getElementById("belt").value) {
+          obj[document.getElementById("belt").value] = {};
+          for (row of document.getElementsByClassName("projectRow")) {
+            obj[document.getElementById("belt").value][
+              row.getElementsByClassName("name")[0].innerText
+            ] = {
+              completed: row.getElementsByClassName("completed")[0].checked
+                ? true
+                : false,
+              comment: row.getElementsByClassName("comment")[0].innerText
+            };
+          }
         }
+        firebase
+          .database()
+          .ref(document.getElementById("name").value)
+          .update(obj)
+          .then(() => {
+            console.log(obj);
+            firebase
+              .database()
+              .ref(document.getElementById("name").value)
+              .update({
+                name: document.getElementById("name").value,
+                belt: document.getElementById("belt").value,
+                ScratchUsername: document.getElementById("ScratchPassword")
+                  .value,
+                ScratchPassword: document.getElementById("ScratchPassword")
+                  .value,
+                replUsername: document.getElementById("replUsername").value,
+                replPassword: document.getElementById("replPassword").value,
+                typingUsername: document.getElementById("typingUsername").value,
+                typingPassword: document.getElementById("typingPassword").value
+              })
+              .then(() => {
+                back();
+              });
+          });
+      }
 
-        function updateOutSideOfFirebase(){
-          var table = document.getElementById("projects");
-          console.log(project);
-          for(projName of project){
-            table.innerHTML+=`
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(
+          /[?&]+([^=&]+)=([^&]*)/gi,
+          function(m, key, value) {
+            vars[key] = value;
+          }
+        );
+        return vars;
+      }
+
+      function back() {
+        window.location.href = "./index.html";
+      }
+
+      var project = [];
+      function beltInput(value) {
+        if (value == "White Belt")
+          project = [
+            "01-01 ZOMBIE ISLAND",
+            "01-02 FUN WITH SHAPES",
+            "01-03 PROVE YOURSELF",
+            "02-01 SPIN A STAR",
+            "02-02 MULTIPLE STARS",
+            "02-03 SPIN ALL OBJECTS",
+            "02-04 SPIN COUNTER-CLOCKWISE",
+            "02-05 SPIN PROVE YOURSELF",
+            "03-01 SIDE WALL BOUNCE",
+            "03-02 LASER BEAM POINTER",
+            "03-03 BASIC SHOOTER",
+            "03-04 PROVE YOURSELF BUBBLES",
+            "04-01 PONG",
+            "04-02 BASIC PONG WITH KEYBOARD",
+            "04-03 TWO PLAYER PONG",
+            "04-04 PROVE YOURSELF (TWO PLAYER PONG)",
+            "05-01 COCONUT CHAOS",
+            "OPTIONAL - 07-01 STARTAG (BLOCKS)",
+            "OPTIONAL - 07-01 STARTAG (JAVASCRIPT)",
+            "OPTIONAL - 07-02 AVOID THE BUGS (BLOCKS)",
+            "OPTIONAL - 07-02 AVOID THE BUGS (JAVASCRIPT)"
+          ];
+
+        if (value == "Yellow Belt")
+          project = [
+            "01-01 RAIN CATCHER PART 1",
+            "01-02 RAIN CATCHER PART 2",
+            "01-03 RAIN CATCHER PART 3",
+            "01-04 RAIN CATCHER PART 4",
+            "01-05 RAIN CATCHER PART 5",
+            "01-06 RAIN CATCHER PART 6",
+            "PROVE YOURSELF - RAIN CATCHER COMPLETE",
+            "PROVE YOURSELF - COLOR CHANGE",
+            "02-01 METEORS PART 1",
+            "02-02 METEORS PART 2",
+            "PROVE YOURSELF - ROLLING DICE",
+            "03-01 HIDING NINJA",
+            "03-02 HIDING NINJAS",
+            "03-03 WHACK A NINJA",
+            "03-04 NINJA SUPPLIES",
+            "PROVE YOURSELF - WHAT'S INSIDE?",
+            "PROVE YOURSELF - ROCK PAPER SCISSORS",
+            "PROVE YOURSELF - ROBOT BUILDER",
+            "04-01 BUMPER CAR",
+            "04-02 BALLOON PROTECT",
+            "04-03 NINJA SNACKS",
+            "04-04 SHURIKEN TOSS PART 1",
+            "04-05 SPACE TOUR",
+            "04-06 SHURIKEN TOSS PART 2",
+            "04-07 NINJA BATTLE",
+            "PROVE YOURSELF - CANDY SORT",
+            "05-01 STARSCAPE",
+            "05-02 ZAPPER PART 1",
+            "05-03 ZAPPER PART 2",
+            "05-04 WALL BLASTER",
+            "PROVE YOURSELF - COLOR CHANGE PART 2",
+            "PROVE YOURSELF - LIFT OFF",
+            "PROVE YOURSELF - BUBBLES",
+            "06-01 METEORS DELUXE",
+            "PROVE YOURSELF - BUG INVADERS"
+          ];
+        if (value == "Orange Belt")
+          project = [
+            "INTRODUCTION",
+            "DOJO PRACTICE",
+            "SHURIKEN DODGE",
+            "NINJA RACE",
+            "BALL TOSS",
+            "DUNGEON ESCAPE",
+            "SCRAMBLE",
+            "NINJA PUZZLE",
+            "WALL BLASTER 2",
+            "FLYING NINJA",
+            "SHUT THE BOX",
+            "CODE BREAKER",
+            "HANGMAN",
+            "THE SKY IS FALLING",
+            "ENDLESS RUN",
+            "WAR",
+            "WORD SCRAMBLE",
+            "SERVER",
+            "ODDBALL",
+            "CIRCUS BOUNCE",
+            "TOWER OF HANOI"
+          ];
+        if (value == "Green Belt")
+          project = [
+            "ROOFTOP RUNNER",
+            "NINJA PUZZLE 2",
+            "BELLS AND WHISTLES",
+            "MAKING YOUR OWN AVATAR",
+            "MOVING YOUR AVATAR",
+            "VANISHING NINJA",
+            "BASIC PLATFORMING",
+            "EXPLORE THE FOREST",
+            "SPACE BUMPERS",
+            "NINJA QUEST",
+            "MOVING PLATFORMS",
+            "SCAVENGER HUNT",
+            "SPY",
+            "SNOWBALL FIGHT",
+            "TANK BATTLE",
+            "ROCK CLIMBING",
+            "INTERSECT",
+            "SNEAKY",
+            "RHYTHM",
+            "BARREL JUMP"
+          ];
+        console.log(project);
+        if (document.getElementById("name").value)
+          firebase
+            .database()
+            .ref(document.getElementById("name").value)
+            .once(
+              "value",
+              function(snapshot) {
+                var table = document.getElementById("projects");
+                console.log(table);
+                table.innerHTML = "";
+                if (snapshot.val()[value]) {
+                  console.log(snapshot.val()[value]);
+                  for (projName in snapshot.val()[value]) {
+                    var project = snapshot.val()[value][projName];
+                    console.log(project);
+                    table.innerHTML +=
+                      `<tr class="projectRow">
+                          <th scope="row" class="name">` +
+                      projName +
+                      `</th>
+                          <th scope="row" class="completed"><input type="checkbox" value="` +
+                      projName +
+                      `" ` +
+                      (project["completed"] ? "checked" : "") +
+                      `/></th>
+                          <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">` +
+                      project["comment"] +
+                      `</div></th>
+                    </tr>
+                `;
+                  }
+                } else {
+                  updateOutSideOfFirebase();
+                }
+              }.bind({ project })
+            );
+        else updateOutSideOfFirebase();
+      }
+
+      function updateOutSideOfFirebase() {
+        var table = document.getElementById("projects");
+        console.log(project);
+        for (projName of project) {
+          table.innerHTML +=
+            `
                 <tr class="projectRow">
-                      <th scope="row" class="name">`+projName+`</th>
-                      <th scope="row" class="completed"><input type="checkbox" value="`+projName+`"/></th>
+                      <th scope="row" class="name">` +
+            projName +
+            `</th>
+                      <th scope="row" class="completed"><input type="checkbox" value="` +
+            projName +
+            `"/></th>
                       <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;"></div></th>
                 </tr>
-            `
-          }
+            `;
         }
+      }
 
-        document.addEventListener('input', function (event) {
+      document.addEventListener(
+        "input",
+        function(event) {
+          // Only run on our select menu
+          if (event.target.id !== "belt") return;
 
-        	// Only run on our select menu
-        	if (event.target.id !== 'belt') return;
+          beltInput(event.target.value);
 
-            beltInput(event.target.value)
-
-        	// Do stuff...
-
-        }, false);
-
+          // Do stuff...
+        },
+        false
+      );
     </script>
   </head>
   <body style="background-color:black">
     <div class="container">
-    <br>
-      <button type="button" class="btn btn-danger btn-lg btn-block" onclick="back()">Back</button>
-      <br>
-      <br>
-    <div>
-        <input id="name" type="text" class="form-control" placeholder="Name">
-        <br>
+      <br />
+      <button
+        type="button"
+        class="btn btn-danger btn-lg btn-block"
+        onclick="back()"
+      >
+        Back
+      </button>
+      <br />
+      <br />
+      <div>
+        <input id="name" type="text" class="form-control" placeholder="Name" />
+        <br />
         <select class="form-control" id="belt">
           <option value="White Belt">White Belt</option>
           <option value="Yellow Belt">Yellow Belt</option>
           <option value="Orange Belt">Orange Belt</option>
           <option value="Orange Belt">GreenBelt Belt</option>
         </select>
-        <br>
+        <br />
         <table class="table table-dark">
           <thead>
             <tr>
@@ -194,62 +369,119 @@
               <th scope="col">Comment</th>
             </tr>
           </thead>
-          <tbody id="projects">
-
-          </tbody>
+          <tbody id="projects"></tbody>
         </table>
-        <br>
+        <br />
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Scratch Username</span>
+            <span class="input-group-text" id="basic-addon1"
+              >Scratch Username</span
+            >
           </div>
-            <input id="ScratchUsername" type="text" class="form-control" placeholder="Scratch Username">
+          <input
+            id="ScratchUsername"
+            type="text"
+            class="form-control"
+            placeholder="Scratch Username"
+          />
         </div>
-        <br>
+        <br />
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Scratch Password</span>
+            <span class="input-group-text" id="basic-addon1"
+              >Scratch Password</span
+            >
           </div>
-            <input id="ScratchPassword" type="text" class="form-control" placeholder="Scratch Password">
+          <input
+            id="ScratchPassword"
+            type="text"
+            class="form-control"
+            placeholder="Scratch Password"
+          />
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">repl Username</span>
+            <span class="input-group-text" id="basic-addon1"
+              >repl Username</span
+            >
           </div>
-            <input id="replUsername" type="text" class="form-control" placeholder="repl.it Username">
+          <input
+            id="replUsername"
+            type="text"
+            class="form-control"
+            placeholder="repl.it Username"
+          />
         </div>
-        <br>
+        <br />
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">repl Password</span>
+            <span class="input-group-text" id="basic-addon1"
+              >repl Password</span
+            >
           </div>
-            <input id="replPassword" type="text" class="form-control" placeholder="repl.it Password">
+          <input
+            id="replPassword"
+            type="text"
+            class="form-control"
+            placeholder="repl.it Password"
+          />
         </div>
-                <br>
+        <br />
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Typing.com Username</span>
+            <span class="input-group-text" id="basic-addon1"
+              >Typing.com Username</span
+            >
           </div>
-            <input id="typingUsername" type="text" class="form-control" placeholder="Typing.com Username">
+          <input
+            id="typingUsername"
+            type="text"
+            class="form-control"
+            placeholder="Typing.com Username"
+          />
         </div>
-        <br>
+        <br />
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Typing.com Password</span>
+            <span class="input-group-text" id="basic-addon1"
+              >Typing.com Password</span
+            >
           </div>
-            <input id="typingPassword" type="text" class="form-control" placeholder="Typing.com Password">
+          <input
+            id="typingPassword"
+            type="text"
+            class="form-control"
+            placeholder="Typing.com Password"
+          />
         </div>
-        <br>
-        <br>
-        <button type="button" class="btn btn-outline-success btn-lg btn-block" onclick="update()">Update</button>
-    </div>
+        <br />
+        <br />
+        <button
+          type="button"
+          class="btn btn-outline-success btn-lg btn-block"
+          onclick="update()"
+        >
+          Update
+        </button>
       </div>
+    </div>
 
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
