@@ -23,13 +23,13 @@
 
     <script>
       /*
-    SCRAPER
-    var arr = []
-    for(el of document.getElementsByTagName("h3")){
-        arr.push(el.innerText)
-    }
-    console.log(arr)
-    */
+      SCRAPER
+      var arr = []
+      for(el of document.getElementsByTagName("h3")){
+          arr.push(el.innerText)
+      }
+      console.log(arr)
+      */
       // Your web app's Firebase configuration
       var firebaseConfig = {
         apiKey: "AIzaSyANb9biku3lYEm0VF1u2JH1d2gcGMyIzmU",
@@ -74,30 +74,50 @@
             document.getElementById("typingPassword").value = snapshot.val()[
               "typingPassword"
             ];
+            document.getElementById("userComment").value = snapshot.val()[
+              "userComment"
+            ];
+            document.getElementById("archive").innerText = snapshot.val()[
+              "archive"
+            ]
+              ? "Unarchive"
+              : "Archive";
+            var timeElapsed =
+              snapshot.val()["lastBeltUp"] - new Date().getTime();
+            document.getElementById("lastBeltUp").innerText =
+              Math.round(timeElapsed / (1000 * 60 * 60 * 24)) + " days ago";
+
+            document.getElementById("age").value = snapshot.val()["age"];
             var table = document.getElementById("projects");
             table.innerHTML = "";
             for (projName in snapshot.val()[snapshot.val()["belt"]]) {
               var project = snapshot.val()[snapshot.val()["belt"]][projName];
               table.innerHTML +=
                 `<tr class="projectRow">
-                            <th scope="row" class="name">` +
+                              <th scope="row" class="name">` +
                 projName +
                 `</th>
-                            <th scope="row"><input type="checkbox" class="completed" value="` +
+                              <th scope="row"><input onclick="addNinjaBucks()" class="completed" type="checkbox" value="` +
                 projName +
                 `" ` +
                 (project["completed"] ? "checked" : "") +
                 `/></th>
-                            <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">` +
+                              <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">` +
                 project["comment"] +
                 `</div></th>
-                      </tr>
-                  `;
+                        </tr>
+                    `;
             }
           });
-      else setTimeout(() => beltInput("White Belt"), 1000);
-
-      function update(redirect) {
+      else {
+        setTimeout(() => {
+          beltInput("White Belt");
+          document.getElementById("lastBeltUp").innerText = "0 days ago";
+          newAccount = true;
+        }, 1000);
+      }
+      var newAccount = false;
+      function update() {
         var obj = {};
         if (document.getElementById("belt").value) {
           obj[document.getElementById("belt").value] = {};
@@ -112,6 +132,15 @@
             };
           }
         }
+        if (newAccount)
+          firebase
+            .database()
+            .ref(document.getElementById("name").value)
+            .update({
+              lastBeltUp: new Date().getTime()
+            });
+        console.log(obj);
+
         firebase
           .database()
           .ref(document.getElementById("name").value)
@@ -131,7 +160,9 @@
                 replUsername: document.getElementById("replUsername").value,
                 replPassword: document.getElementById("replPassword").value,
                 typingUsername: document.getElementById("typingUsername").value,
-                typingPassword: document.getElementById("typingPassword").value
+                typingPassword: document.getElementById("typingPassword").value,
+                userComment: document.getElementById("userComment").value,
+                age: document.getElementById("age").value
               })
               .then(() => {
                 back();
@@ -284,19 +315,19 @@
                     console.log(project);
                     table.innerHTML +=
                       `<tr class="projectRow">
-                          <th scope="row" class="name">` +
+                            <th scope="row" class="name">` +
                       projName +
                       `</th>
-                          <th scope="row" class="completed"><input type="checkbox" value="` +
+                            <th scope="row"><input onclick="addNinjaBucks()" class="completed" type="checkbox" value="` +
                       projName +
                       `" ` +
                       (project["completed"] ? "checked" : "") +
                       `/></th>
-                          <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">` +
+                            <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;">` +
                       project["comment"] +
                       `</div></th>
-                    </tr>
-                `;
+                      </tr>
+                  `;
                   }
                 } else {
                   updateOutSideOfFirebase();
@@ -306,22 +337,47 @@
         else updateOutSideOfFirebase();
       }
 
+      function addNinjaBucks() {
+        var names = document.getElementById("name").value.split(" ");
+        var name = names[0] + " " + names[names.length - 1].substring(0, 1);
+        var number = 0;
+        if (document.getElementById("belt").value == "White Belt") number = 10;
+        if (document.getElementById("belt").value == "Yellow Belt") number = 20;
+        if (document.getElementById("belt").value == "Orange Belt") number = 30;
+        if (document.getElementById("belt").value == "Green Belt") number = 40;
+        window.open(
+          "https://nb.kihtrak.com/?name=" + name + "&number=" + number
+        );
+      }
+
+      function beltUp() {
+        firebase
+          .database()
+          .ref(document.getElementById("name").value)
+          .update({
+            lastBeltUp: new Date().getTime()
+          })
+          .then(() => {
+            document.getElementById("lastBeltUp").innerText = "0 days ago";
+          });
+      }
+
       function updateOutSideOfFirebase() {
         var table = document.getElementById("projects");
         console.log(project);
         for (projName of project) {
           table.innerHTML +=
             `
-                <tr class="projectRow">
-                      <th scope="row" class="name">` +
+                  <tr class="projectRow">
+                        <th scope="row" class="name">` +
             projName +
             `</th>
-                      <th scope="row" class="completed"><input type="checkbox" value="` +
+                        <th scope="row"><input class="completed" onclick="addNinjaBucks()" type="checkbox" value="` +
             projName +
             `"/></th>
-                      <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;"></div></th>
-                </tr>
-            `;
+                        <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;"></div></th>
+                  </tr>
+              `;
         }
       }
 
@@ -337,6 +393,27 @@
         },
         false
       );
+
+      function archive() {
+        firebase
+          .database()
+          .ref(document.getElementById("name").value)
+          .update({
+            archive: document.getElementById("archive").innerText == "Archive"
+          })
+          .then(() => {
+            update();
+          });
+      }
+      function deleteAccount() {
+        firebase
+          .database()
+          .ref(document.getElementById("name").value)
+          .remove()
+          .then(() => {
+            back();
+          });
+      }
     </script>
   </head>
   <body style="background-color:black">
@@ -361,6 +438,24 @@
           <option value="Orange Belt">GreenBelt Belt</option>
         </select>
         <br />
+        <textarea
+          id="userComment"
+          placeholder="Important Comments"
+          style="min-height:100px;width: 100%; background-color: white; border-radius: 5px;"
+        ></textarea>
+        <br />
+        <p style="color:white">
+          Last Belt Up: <span id="lastBeltUp"></span>
+          <button
+            style="margin-left: 20px;"
+            type="button"
+            class="btn btn-danger"
+            onClick="beltUp()"
+          >
+            Reset
+          </button>
+        </p>
+        <br />
         <table class="table table-dark">
           <thead>
             <tr>
@@ -372,6 +467,12 @@
           <tbody id="projects"></tbody>
         </table>
         <br />
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Age</span>
+          </div>
+          <input id="age" type="text" class="form-control" placeholder="Age" />
+        </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1"
@@ -465,6 +566,28 @@
         >
           Update
         </button>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-lg btn-block"
+          onclick="archive()"
+          id="archive"
+        >
+          Archive
+        </button>
+        <br />
+        <button
+          type="button"
+          class="btn btn-outline-danger btn-lg btn-block"
+          onclick="deleteAccount()"
+        >
+          DELETE
+        </button>
+        <br />
       </div>
     </div>
 
