@@ -52,7 +52,7 @@
       if (getUrlVars()["name"])
         firebase
           .database()
-          .ref(decodeURI(getUrlVars()["name"]))
+          .ref("students/" + decodeURI(getUrlVars()["name"]))
           .on("value", function(snapshot) {
             document.getElementById("name").value = snapshot.val()["name"];
             document.getElementById("belt").value = snapshot.val()["belt"];
@@ -135,7 +135,7 @@
         if (newAccount)
           firebase
             .database()
-            .ref(document.getElementById("name").value)
+            .ref("students/" + document.getElementById("name").value)
             .update({
               lastBeltUp: new Date().getTime()
             });
@@ -143,13 +143,13 @@
 
         firebase
           .database()
-          .ref(document.getElementById("name").value)
+          .ref("students/" + document.getElementById("name").value)
           .update(obj)
           .then(() => {
             console.log(obj);
             firebase
               .database()
-              .ref(document.getElementById("name").value)
+              .ref("students/" + document.getElementById("name").value)
               .update({
                 name: document.getElementById("name").value,
                 belt: document.getElementById("belt").value,
@@ -301,7 +301,7 @@
         if (document.getElementById("name").value)
           firebase
             .database()
-            .ref(document.getElementById("name").value)
+            .ref("students/" + document.getElementById("name").value)
             .once(
               "value",
               function(snapshot) {
@@ -356,7 +356,7 @@
       function beltUp() {
         firebase
           .database()
-          .ref(document.getElementById("name").value)
+          .ref("students/" + document.getElementById("name").value)
           .update({
             lastBeltUp: new Date().getTime()
           })
@@ -400,7 +400,7 @@
       function archive() {
         firebase
           .database()
-          .ref(document.getElementById("name").value)
+          .ref("students/" + document.getElementById("name").value)
           .update({
             archive: document.getElementById("archive").innerText == "Archive"
           })
@@ -411,7 +411,7 @@
       function deleteAccount() {
         firebase
           .database()
-          .ref(document.getElementById("name").value)
+          .ref("students/" + document.getElementById("name").value)
           .remove()
           .then(() => {
             back();

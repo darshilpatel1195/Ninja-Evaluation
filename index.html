@@ -51,7 +51,7 @@
 
       firebase
         .database()
-        .ref()
+        .ref("students")
         .on("value", function(snapshot) {
           var table = document.getElementById("ninjas");
           table.innerHTML = "";
