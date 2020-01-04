@@ -338,19 +338,23 @@
       }
 
       function addNinjaBucks() {
-        var names = document.getElementById("name").value.split(" ");
-        var name = names[0] + " " + names[names.length - 1].substring(0, 1);
-        var number = 0;
-        if (document.getElementById("belt").value == "White Belt") number = 10;
-        if (document.getElementById("belt").value == "Yellow Belt") number = 20;
-        if (document.getElementById("belt").value == "Orange Belt") number = 30;
-        if (document.getElementById("belt").value == "Green Belt") number = 40;
-        window.open(
-          "https://nb.kihtrak.com/?name=" +
-            encodeURIComponent(name) +
-            "&number=" +
-            encodeURIComponent(number)
-        );
+        console.log(event.target)
+        console.log(event.target.checked)
+        if(event.target.checked){
+          var names = document.getElementById("name").value.split(" ");
+          var name = names[0] + " " + names[names.length - 1].substring(0, 1);
+          var number = 0;
+          if (document.getElementById("belt").value == "White Belt") number = 10;
+          if (document.getElementById("belt").value == "Yellow Belt") number = 20;
+          if (document.getElementById("belt").value == "Orange Belt") number = 30;
+          if (document.getElementById("belt").value == "Green Belt") number = 40;
+          window.open(
+            "https://nb.kihtrak.com/?name=" +
+              encodeURIComponent(name) +
+              "&number=" +
+              encodeURIComponent(number)
+          );
+        }
       }
 
       function beltUp() {
