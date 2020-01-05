@@ -340,7 +340,7 @@
       function addNinjaBucks() {
         console.log(event.target)
         console.log(event.target.checked)
-        if(event.target.checked){
+        if(event.target.checked && document.getElementById("AddNinjaBucks").checked){
           var names = document.getElementById("name").value.split(" ");
           var name = names[0] + " " + names[names.length - 1].substring(0, 1);
           var number = 0;
@@ -442,7 +442,7 @@
           <option value="White Belt">White Belt</option>
           <option value="Yellow Belt">Yellow Belt</option>
           <option value="Orange Belt">Orange Belt</option>
-          <option value="Orange Belt">GreenBelt Belt</option>
+          <option value="Green Belt">Green Belt</option>
         </select>
         <br />
         <textarea
@@ -463,6 +463,7 @@
           </button>
         </p>
         <br />
+        <input type="checkbox" name="AddNinjaBucks" id="AddNinjaBucks" value="AddNinjaBucks" checked><br>
         <table class="table table-dark">
           <thead>
             <tr>
