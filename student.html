@@ -90,7 +90,9 @@
             document.getElementById("age").value = snapshot.val()["age"];
             var table = document.getElementById("projects");
             table.innerHTML = "";
-            for (projName in snapshot.val()[snapshot.val()["belt"]]) {
+            if(snapshot.val()["belt"])
+              beltInput(snapshot.val()["belt"])
+            /*for (projName in snapshot.val()[snapshot.val()["belt"]]) {
               var project = snapshot.val()[snapshot.val()["belt"]][projName];
               table.innerHTML +=
                 `<tr class="projectRow">
@@ -107,7 +109,7 @@
                 `</div></th>
                         </tr>
                     `;
-            }
+            }*/
           });
       else {
         setTimeout(() => {
@@ -186,8 +188,9 @@
       }
 
       var project = [];
+      var projectRubric = [];
       function beltInput(value) {
-        if (value == "White Belt")
+        if (value == "White Belt"){
           project = [
             "01-01 ZOMBIE ISLAND",
             "01-02 FUN WITH SHAPES",
@@ -211,8 +214,23 @@
             "OPTIONAL - 07-02 AVOID THE BUGS (BLOCKS)",
             "OPTIONAL - 07-02 AVOID THE BUGS (JAVASCRIPT)"
           ];
+          projectRubric = [
+            "1. Explain the moveY function",
+            "Check that"
+          ]
+        }
+        if (value == "Yellow Belt - V2"){
+          project = 
+            ["GETTING STARTED",
+             "GETTING STARTED_COPY",
+            "GETTING STARTED_COPY_COPY",
+             "SPIN A STAR", "MULTIPLE STARS", "SPIN ALL OBJECTS", "SPIN COUNTER CLOCKWISE", "SPIN THE SCENE", "COORDINATE COLLECTOR", "FOLLOW THE POINTER", "STAR SPINNER", "SIDE WALL BOUNCE", "LASER BEAM POINTER", "BASIC SHOOTER", "RAIN CATCHER PART 1", "PONG", "RAIN CATCHER PART 2", "BASIC PONG WITH KEYBOARD", "TWO PLAYER PONG", "MEASUREMENTS", "NINJA PUZZLE", "SPACE SHOOTER", "RAIN CATCHER PART 3", "SHOOTING STARS", "METEORS PART 1", "RAIN CATCHER PART 4", "METEORS PART 2", "RAIN CATCHER PART 5", "RAIN CATCHER PART 6", "HIDING NINJA", "HIDING NINJAS", "WHACK A NINJA", "NINJA SUPPLIES", "BUMPER CAR", "BALLOON PROTECT", "STARSCAPE", "ZAPPER PART 1", "NINJA SNACKS", "SHURIKEN TOSS PART 1", "SPACE TOUR", "SHURIKEN TOSS PART 2", "NINJA BATTLE", "ZAPPER PART 2", "WALL BLASTER", "METEORS DELUXE", "COLOR CHANGE", "WHAT'S INSIDE", "LIFT OFF", "ROLLING DICE", "BUBBLES", "ROBOT BUILDER", "ROCK PAPER SCISSORS", "BUG INVADERS", "CANDY SORT", "COCONUT CATCH"];
+          projectRubric = [
 
-        if (value == "Yellow Belt")
+          ]
+        }
+
+        if (value == "Yellow Belt"){
           project = [
             "01-01 RAIN CATCHER PART 1",
             "01-02 RAIN CATCHER PART 2",
@@ -250,7 +268,47 @@
             "06-01 METEORS DELUXE",
             "PROVE YOURSELF - BUG INVADERS"
           ];
-        if (value == "Orange Belt")
+          projectRubric = [
+
+            "1. Explain the moveY function", 
+            "1. Explains the isKeyPressed function <br>2. Explain the parameters of the isKeyPressed function", 
+            "1. Explains what the random function does", 
+            "1. Explains what the clone function does", 
+            "1. Explains what timers are <br>2. Understands that functions can be parameters for other functions", 
+            "1. Explains what hexcode color codes are", 
+            "1. Combination of all other Rain Catchers <br>a test to see if they can put it all together from scratch", 
+            "1. Basic version reiterates use of fill() from RC Part 6 <br>2. More complicated version can use isTouching() while dragging", 
+            "1. Reinforces the random function <br>2. Explains what the rotation function does", 
+            "1. Ask the ninja to explain the code <br>and debug <br>2. Reinforce what the clone function does", 
+            "1. Uses random <br>Math.round() <br>and frameIndex() <br>2. Explains numbering in computing systems (starting at 0 instead of 1)", 
+            "1. Explains what the toggleVisable function does", 
+            "1. Reinforces what the toggleVisable function does", 
+            "1. Ask the ninja to explain the code <br>and debug", 
+            "1. Explains what the toggleDraggable function does", 
+            "1. Goes over use of frameIndex() from Meteors Deluxe <br>2. Application of random to decide what’s hiding <br>3. visible() function used heavily ", 
+            "1. Focuses on game logic <br>albeit simple. <br>2. Combines several different methods across projects <br>3. Explain how visible() <br>random() <br>frameIndex() and comparison operators are used in the gameplay loop ", 
+            "1. Same as Ninja Puzzle. Sets x and y positions of objects and deals with draggable property", 
+            "1. Explains what the flipDirection function does", 
+            "1. Explains what the remove function does", 
+            "1. Explains the two usages of the moveTo() method (moveTo(object)  and moveTo(x <br>y) )", 
+            "1. Explains what the moveToObject() function does", 
+            "1. Reinforces the moveToObject() function <br>2. Explains what the pointToObject() function", 
+            "1. Explains what the moveForwardByRotation() <br>2. Explains the pointToCursor()", 
+            "1. Explains the pointToObject() function <br>2. Explains the rotation() method and understands the parameters", 
+            "1. Spawning candy is similar to Rain Catcher <br>2. Explain logic for checking if candy is in the right bin <br>and what happens when it isn’t", 
+            "1. Reinforces what the remove function does", 
+            "1. Ask the ninja to explain the code <br>and debug", 
+            "1. Explains what the isTouching() method does", 
+            "1. Ask the ninja to explain the code <br>and debug", 
+            "1. Use of isTouching boolean function and dragging <br>2. Shows how the same problem can be solved in a different way than the first time", 
+            "1. Similar to Ninja Supplies <br>can be done by either clicking or dragging <br>2. As a challenge for older students <br>they can specify the order that objects need to be dragged in order to win", 
+            "Looks like the same bubbles that’s in White Belt, they can skip",
+            "1. Create a new game from scratch using concepts learned throughout the belt", 
+            "1. Use of createTimer() and clone() to create enemies <br>similar to Rain Catcher <br>2. Explain how booleans are used to check for movement"
+          ]
+        }
+
+        if (value == "Orange Belt"){
           project = [
             "INTRODUCTION",
             "DOJO PRACTICE",
@@ -274,7 +332,13 @@
             "CIRCUS BOUNCE",
             "TOWER OF HANOI"
           ];
-        if (value == "Green Belt")
+          projectRubric = [
+            "Check this",
+            "Check that"
+          ]
+        }
+
+        if (value == "Green Belt"){
           project = [
             "ROOFTOP RUNNER",
             "NINJA PUZZLE 2",
@@ -297,6 +361,11 @@
             "RHYTHM",
             "BARREL JUMP"
           ];
+          projectRubric = [
+            "Check this",
+            "Check that"
+          ]
+        }
         console.log(project);
         if (document.getElementById("name").value)
           firebase
@@ -310,14 +379,18 @@
                 table.innerHTML = "";
                 if (snapshot.val()[value]) {
                   console.log(snapshot.val()[value]);
+                  var num = 0;
                   for (projName in snapshot.val()[value]) {
                     var project = snapshot.val()[value][projName];
+                    var rub = projectRubric[num]?projectRubric[num]:"null"
+                    console.log(rub)
                     console.log(project);
                     table.innerHTML +=
                       `<tr class="projectRow">
                             <th scope="row" class="name">` +
                       projName +
                       `</th>
+                      <th scope="row" class="rubric">`+rub+`</th>
                             <th scope="row"><input onclick="addNinjaBucks()" class="completed" type="checkbox" value="` +
                       projName +
                       `" ` +
@@ -328,6 +401,7 @@
                       `</div></th>
                       </tr>
                   `;
+                  num++;
                   }
                 } else {
                   updateOutSideOfFirebase();
@@ -344,10 +418,10 @@
           var names = document.getElementById("name").value.split(" ");
           var name = names[0] + " " + names[names.length - 1].substring(0, 1);
           var number = 0;
-          if (document.getElementById("belt").value == "White Belt") number = 10;
-          if (document.getElementById("belt").value == "Yellow Belt") number = 20;
-          if (document.getElementById("belt").value == "Orange Belt") number = 30;
-          if (document.getElementById("belt").value == "Green Belt") number = 40;
+          if (document.getElementById("belt").value .includes( "White Belt")) number = 10;
+          if (document.getElementById("belt").value.includes("Yellow Belt")) number = 20;
+          if (document.getElementById("belt").value.includes("Orange Belt")) number = 30;
+          if (document.getElementById("belt").value .includes( "Green Belt")) number = 40;
           window.open(
             "https://nb.kihtrak.com/?name=" +
               encodeURIComponent(name) +
@@ -371,20 +445,24 @@
 
       function updateOutSideOfFirebase() {
         var table = document.getElementById("projects");
+        var num = 0;
         console.log(project);
         for (projName of project) {
+          var rub = projectRubric[num]?projectRubric[num]:"null"
           table.innerHTML +=
             `
                   <tr class="projectRow">
                         <th scope="row" class="name">` +
             projName +
             `</th>
+            <th scope="row" class="rubric">`+rub+`</th>
                         <th scope="row"><input class="completed" onclick="addNinjaBucks()" type="checkbox" value="` +
             projName +
             `"/></th>
                         <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;"></div></th>
                   </tr>
               `;
+            num++
         }
       }
 
@@ -440,6 +518,7 @@
         <br />
         <select class="form-control" id="belt">
           <option value="White Belt">White Belt</option>
+          <option value="Yellow Belt - V2">Yellow Belt - V2</option>
           <option value="Yellow Belt">Yellow Belt</option>
           <option value="Orange Belt">Orange Belt</option>
           <option value="Green Belt">Green Belt</option>
@@ -468,6 +547,7 @@
           <thead>
             <tr>
               <th scope="col">Project Name</th>
+              <th scope="col">Things To Check</th>
               <th scope="col">Completed</th>
               <th scope="col">Comment</th>
             </tr>
