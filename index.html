@@ -43,6 +43,7 @@
       var provider = new firebase.auth.GoogleAuthProvider();
 
       firebase.auth().onAuthStateChanged(function(user) {
+        console.log(user)
         if (user) {
           firebase.database().ref("users").once("value", function(snapshot) {
             var auth = false;
