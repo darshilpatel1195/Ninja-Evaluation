@@ -120,6 +120,16 @@
             }
           }
         });
+
+        function addSensei(){
+          var email = prompt("Sensei Google Account?");
+          firebase
+            .database()
+            .ref("users/")
+            .update({
+              [email]: true
+            });
+        }
     </script>
   </head>
   <body style="background-color: black">
@@ -153,66 +163,9 @@
         <tbody id="ninjasArchive"></tbody>
       </table>
       <button class="btn btn-outline-danger btn-block" onclick="firebase.auth().signOut()">Sign Out</button>
+      <button class="btn btn-outline-primary btn-block" onclick="addSensei()">Add Sensei</button>
     </div>
 
-    <div class="modal" tabindex="-1" role="dialog" id="myModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="nbName">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div
-            class="modal-body"
-            style="display: flex;  align-items: center; justify-content: center;"
-          >
-            <button
-              type="button"
-              class="btn btn-outline-success"
-              style="margin-bottom: 2px"
-              class="text-center"
-              onClick="add()"
-            >
-              +</button
-            ><input
-              type="text"
-              class="form-control"
-              id="nbInput"
-              style="margin-bottom: 2px"
-            /><button
-              type="button"
-              class="btn btn-outline-danger"
-              onClick="sub()"
-            >
-              -
-            </button>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onClick="updateWName()"
-            >
-              Save changes
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
