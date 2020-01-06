@@ -46,9 +46,11 @@
         if (user) {
           firebase.database().ref("users").once("value", function(snapshot) {
             var auth = false;
-            for(emailIndex in snapshot.val())
+            for(emailIndex in snapshot.val()){
               if(snapshot.val()[emailIndex] == user.email)
                 auth = true;
+              console.log(snapshot.val()[emailIndex] + " : " + user.email)
+            }
             if(!auth)
               alert("This is not a Sensei account")
               firebase.auth().signOut()
