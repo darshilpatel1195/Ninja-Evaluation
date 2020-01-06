@@ -51,9 +51,11 @@
                 auth = true;
               console.log(snapshot.val()[emailIndex] + " : " + user.email)
             }
-            if(!auth)
+            console.log(auth)
+            if(!auth){
               alert("This is not a Sensei account")
               firebase.auth().signOut()
+            }
           })
           // User is signed in.
         } else {
