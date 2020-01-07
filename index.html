@@ -141,25 +141,6 @@
             });
         }
 
-        document.getElementById("search").addEventListener("input", function() {
-        if (document.getElementById("search").value == "") {
-          updateTable(globalUsers);
-        } else {
-          var newList = {};
-          for (nin in globalUsers) {
-            if (
-              nin
-                .toLocaleLowerCase()
-                .includes(
-                  document.getElementById("search").value.toLocaleLowerCase()
-                )
-            )
-              newList[nin] = globalUsers[nin];
-          }
-          updateTable(newList);
-        }
-      });
-
     </script>
   </head>
   <body style="background-color: black">
@@ -205,6 +186,26 @@
       <button class="btn btn-outline-primary btn-block btn-lg" onclick="addSensei()">Add Sensei</button><br>
     </div>
 
+    <script>
+      document.getElementById("search").addEventListener("input", function() {
+        if (document.getElementById("search").value == "") {
+          updateTable(globalUsers);
+        } else {
+          var newList = {};
+          for (nin in globalUsers) {
+            if (
+              nin
+                .toLocaleLowerCase()
+                .includes(
+                  document.getElementById("search").value.toLocaleLowerCase()
+                )
+            )
+              newList[nin] = globalUsers[nin];
+          }
+          updateTable(newList);
+        }
+      });
+    </script>
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
