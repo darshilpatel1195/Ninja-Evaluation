@@ -122,7 +122,7 @@
         });
 
         function addSensei(){
-          var email = prompt("Sensei Google Account?");
+          var email = prompt("Sensei Gmail Account?").replace('.', '%2E');
           firebase
             .database()
             .ref("users/")
@@ -162,8 +162,8 @@
         </thead>
         <tbody id="ninjasArchive"></tbody>
       </table>
-      <button class="btn btn-outline-danger btn-block" onclick="firebase.auth().signOut()">Sign Out</button>
-      <button class="btn btn-outline-primary btn-block" onclick="addSensei()">Add Sensei</button>
+      <button class="btn btn-outline-danger btn-block btn-lg" onclick="firebase.auth().signOut()">Sign Out</button><br>
+      <button class="btn btn-outline-primary btn-block btn-lg" onclick="addSensei()">Add Sensei</button>
     </div>
 
 
