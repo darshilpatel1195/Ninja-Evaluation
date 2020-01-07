@@ -78,17 +78,23 @@
         window.location.href = "./student.html";
       }
 
+      var globalUsers = {}
       firebase
         .database()
         .ref("students")
         .on("value", function(snapshot) {
+          globalUsers = snapshot.val();
+          updateTable(snapshot.val())
+        });
+
+        function updateTable(data){
           var table = document.getElementById("ninjas");
           table.innerHTML = "";
           var table2 = document.getElementById("ninjasArchive");
           table2.innerHTML = "";
-          for (nin in snapshot.val()) {
+          for (nin in data) {
             var icon = "";
-            if (!snapshot.val()[nin]["archive"]) {
+            if (!data[nin]["archive"]) {
               table.innerHTML +=
                 `
                 <tr onclick="showModal('` +
@@ -102,9 +108,9 @@
             `;
             }
           }
-          for (nin in snapshot.val()) {
+          for (nin in data) {
             var icon = "";
-            if (snapshot.val()[nin]["archive"]) {
+            if (data[nin]["archive"]) {
               icon = `<i style="margin-right:20px" class="fa fa-archive"></i>`;
               table2.innerHTML +=
                 `
@@ -119,7 +125,7 @@
               `;
             }
           }
-        });
+        }
 
         function addSensei(){
           var email = prompt("Sensei Gmail Account?").replace('.', '%2E');
@@ -134,10 +140,39 @@
               alert(err)
             });
         }
+
+        document.getElementById("search").addEventListener("input", function() {
+        if (document.getElementById("search").value == "") {
+          updateTable(globalUsers);
+        } else {
+          var newList = {};
+          for (nin in globalUsers) {
+            if (
+              nin
+                .toLocaleLowerCase()
+                .includes(
+                  document.getElementById("search").value.toLocaleLowerCase()
+                )
+            )
+              newList[nin] = globalUsers[nin];
+          }
+          updateTable(newList);
+        }
+      });
+
     </script>
   </head>
   <body style="background-color: black">
     <div>
+      <br />
+      <input
+      id="search"
+      style="margin-top:3px;margin-bottom:10px;"
+      type="text"
+      class="form-control"
+      placeholder="Search"
+      aria-label="Search"
+    />
       <br />
       <div class="container">
         <button
