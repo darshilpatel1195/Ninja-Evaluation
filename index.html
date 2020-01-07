@@ -128,6 +128,10 @@
             .ref("users/")
             .update({
               [email]: true
+            }).then(()=>{
+              alert("Successfully Added")
+            }).catch(err,()=>{
+              alert(err)
             });
         }
     </script>
@@ -163,7 +167,7 @@
         <tbody id="ninjasArchive"></tbody>
       </table>
       <button class="btn btn-outline-danger btn-block btn-lg" onclick="firebase.auth().signOut()">Sign Out</button><br>
-      <button class="btn btn-outline-primary btn-block btn-lg" onclick="addSensei()">Add Sensei</button>
+      <button class="btn btn-outline-primary btn-block btn-lg" onclick="addSensei()">Add Sensei</button><br>
     </div>
 
 
