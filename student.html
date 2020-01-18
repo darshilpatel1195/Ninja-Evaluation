@@ -50,10 +50,12 @@
       }
 
       if (getUrlVars()["name"])
+        console.log(getUrlVars()["name"])
         firebase
           .database()
           .ref("students/" + decodeURI(getUrlVars()["name"]))
           .on("value", function(snapshot) {
+            console.log(snapshot.val())
             document.getElementById("name").value = snapshot.val()["name"];
             document.getElementById("belt").value = snapshot.val()["belt"];
             document.getElementById("ScratchUsername").value = snapshot.val()[
@@ -216,28 +218,28 @@
           ];
           projectRubric = [
 
-          "1. Learn the basics of how to start and stop games.", 
-          "1.Understand how to arrange objects on the stage. <br>2. Understand how to resize radius of circle.", 
-          "1. Show understanding of setting stage in the GDP. <br>2. This project combines all of the previous topics. Ask the student to be creative!", 
-          "1.Understand the spin(); function.", 
-          "1. Explain parameters. <br>2. Explain speed of rotation.", 
-          "1. Explain the difference between this project and the last.", 
-          "1. Explain what a negative 2nd parameter does.", 
-          "1. This project combines all of the previous topics. Ask the student to be creative!", 
-          "1. Explain if/then statements. <br>2. Explain boolean logic. <br>3. Explain moveX", "speedX", "and x functions..", 
-          "1. This project continues the concepts from the previous activity. Encourage the student to do the bonus steps!", 
-          "1. Explain the concept of debugging.", 
-          "1. Explain the basics of movement code. <br>2. Explain how cloning works. <br>3. Explain the Mouse Click event.", 
-          "1. Explain how y", "speedY", "and height functions work. <br>2. Explain how comments work.", 
-          "1. Explain the isKeyPressed() function.", 
-          "1. This project continues concepts from the previous project.", 
-          "1. Explain conditionals.", 
+          "1. Learn the basics of how to start and stop games.",
+          "1.Understand how to arrange objects on the stage. <br>2. Understand how to resize radius of circle.",
+          "1. Show understanding of setting stage in the GDP. <br>2. This project combines all of the previous topics. Ask the student to be creative!",
+          "1.Understand the spin(); function.",
+          "1. Explain parameters. <br>2. Explain speed of rotation.",
+          "1. Explain the difference between this project and the last.",
+          "1. Explain what a negative 2nd parameter does.",
+          "1. This project combines all of the previous topics. Ask the student to be creative!",
+          "1. Explain if/then statements. <br>2. Explain boolean logic. <br>3. Explain moveX", "speedX", "and x functions..",
+          "1. This project continues the concepts from the previous activity. Encourage the student to do the bonus steps!",
+          "1. Explain the concept of debugging.",
+          "1. Explain the basics of movement code. <br>2. Explain how cloning works. <br>3. Explain the Mouse Click event.",
+          "1. Explain how y", "speedY", "and height functions work. <br>2. Explain how comments work.",
+          "1. Explain the isKeyPressed() function.",
+          "1. This project continues concepts from the previous project.",
+          "1. Explain conditionals.",
           "1. Understand how to use “Search Assets.” <br>2. Encourage the student to follow step 33."
 
           ]
         }
         if (value == "Yellow Belt - V2"){
-          project = 
+          project =
             ["GETTING STARTED",
              "GETTING STARTED_COPY",
             "GETTING STARTED_COPY_COPY",
@@ -287,40 +289,40 @@
           ];
           projectRubric = [
 
-            "1. Explain the moveY function", 
-            "1. Explains the isKeyPressed function <br>2. Explain the parameters of the isKeyPressed function", 
-            "1. Explains what the random function does", 
-            "1. Explains what the clone function does", 
-            "1. Explains what timers are <br>2. Understands that functions can be parameters for other functions", 
-            "1. Explains what hexcode color codes are", 
-            "1. Combination of all other Rain Catchers <br>a test to see if they can put it all together from scratch", 
-            "1. Basic version reiterates use of fill() from RC Part 6 <br>2. More complicated version can use isTouching() while dragging", 
-            "1. Reinforces the random function <br>2. Explains what the rotation function does", 
-            "1. Ask the ninja to explain the code <br>and debug <br>2. Reinforce what the clone function does", 
-            "1. Uses random <br>Math.round() <br>and frameIndex() <br>2. Explains numbering in computing systems (starting at 0 instead of 1)", 
-            "1. Explains what the toggleVisable function does", 
-            "1. Reinforces what the toggleVisable function does", 
-            "1. Ask the ninja to explain the code <br>and debug", 
-            "1. Explains what the toggleDraggable function does", 
-            "1. Goes over use of frameIndex() from Meteors Deluxe <br>2. Application of random to decide what’s hiding <br>3. visible() function used heavily ", 
-            "1. Focuses on game logic <br>albeit simple. <br>2. Combines several different methods across projects <br>3. Explain how visible() <br>random() <br>frameIndex() and comparison operators are used in the gameplay loop ", 
-            "1. Same as Ninja Puzzle. Sets x and y positions of objects and deals with draggable property", 
-            "1. Explains what the flipDirection function does", 
-            "1. Explains what the remove function does", 
-            "1. Explains the two usages of the moveTo() method (moveTo(object)  and moveTo(x <br>y) )", 
-            "1. Explains what the moveToObject() function does", 
-            "1. Reinforces the moveToObject() function <br>2. Explains what the pointToObject() function", 
-            "1. Explains what the moveForwardByRotation() <br>2. Explains the pointToCursor()", 
-            "1. Explains the pointToObject() function <br>2. Explains the rotation() method and understands the parameters", 
-            "1. Spawning candy is similar to Rain Catcher <br>2. Explain logic for checking if candy is in the right bin <br>and what happens when it isn’t", 
-            "1. Reinforces what the remove function does", 
-            "1. Ask the ninja to explain the code <br>and debug", 
-            "1. Explains what the isTouching() method does", 
-            "1. Ask the ninja to explain the code <br>and debug", 
-            "1. Use of isTouching boolean function and dragging <br>2. Shows how the same problem can be solved in a different way than the first time", 
-            "1. Similar to Ninja Supplies <br>can be done by either clicking or dragging <br>2. As a challenge for older students <br>they can specify the order that objects need to be dragged in order to win", 
+            "1. Explain the moveY function",
+            "1. Explains the isKeyPressed function <br>2. Explain the parameters of the isKeyPressed function",
+            "1. Explains what the random function does",
+            "1. Explains what the clone function does",
+            "1. Explains what timers are <br>2. Understands that functions can be parameters for other functions",
+            "1. Explains what hexcode color codes are",
+            "1. Combination of all other Rain Catchers <br>a test to see if they can put it all together from scratch",
+            "1. Basic version reiterates use of fill() from RC Part 6 <br>2. More complicated version can use isTouching() while dragging",
+            "1. Reinforces the random function <br>2. Explains what the rotation function does",
+            "1. Ask the ninja to explain the code <br>and debug <br>2. Reinforce what the clone function does",
+            "1. Uses random <br>Math.round() <br>and frameIndex() <br>2. Explains numbering in computing systems (starting at 0 instead of 1)",
+            "1. Explains what the toggleVisable function does",
+            "1. Reinforces what the toggleVisable function does",
+            "1. Ask the ninja to explain the code <br>and debug",
+            "1. Explains what the toggleDraggable function does",
+            "1. Goes over use of frameIndex() from Meteors Deluxe <br>2. Application of random to decide what’s hiding <br>3. visible() function used heavily ",
+            "1. Focuses on game logic <br>albeit simple. <br>2. Combines several different methods across projects <br>3. Explain how visible() <br>random() <br>frameIndex() and comparison operators are used in the gameplay loop ",
+            "1. Same as Ninja Puzzle. Sets x and y positions of objects and deals with draggable property",
+            "1. Explains what the flipDirection function does",
+            "1. Explains what the remove function does",
+            "1. Explains the two usages of the moveTo() method (moveTo(object)  and moveTo(x <br>y) )",
+            "1. Explains what the moveToObject() function does",
+            "1. Reinforces the moveToObject() function <br>2. Explains what the pointToObject() function",
+            "1. Explains what the moveForwardByRotation() <br>2. Explains the pointToCursor()",
+            "1. Explains the pointToObject() function <br>2. Explains the rotation() method and understands the parameters",
+            "1. Spawning candy is similar to Rain Catcher <br>2. Explain logic for checking if candy is in the right bin <br>and what happens when it isn’t",
+            "1. Reinforces what the remove function does",
+            "1. Ask the ninja to explain the code <br>and debug",
+            "1. Explains what the isTouching() method does",
+            "1. Ask the ninja to explain the code <br>and debug",
+            "1. Use of isTouching boolean function and dragging <br>2. Shows how the same problem can be solved in a different way than the first time",
+            "1. Similar to Ninja Supplies <br>can be done by either clicking or dragging <br>2. As a challenge for older students <br>they can specify the order that objects need to be dragged in order to win",
             "Looks like the same bubbles that’s in White Belt, they can skip",
-            "1. Create a new game from scratch using concepts learned throughout the belt", 
+            "1. Create a new game from scratch using concepts learned throughout the belt",
             "1. Use of createTimer() and clone() to create enemies <br>similar to Rain Catcher <br>2. Explain how booleans are used to check for movement"
           ]
         }
@@ -559,7 +561,14 @@
           </button>
         </p>
         <br />
-        <input type="checkbox" name="AddNinjaBucks" id="AddNinjaBucks" value="AddNinjaBucks" checked><span style="color:white"> Automatically Add NinjaBucks?</span>Automatically <br>
+        <input
+          type="checkbox"
+          name="AddNinjaBucks"
+          id="AddNinjaBucks"
+          value="AddNinjaBucks"
+          checked
+        /><span style="color:white"> Automatically Add NinjaBucks?</span
+        >Automatically <br />
         <table class="table table-dark">
           <thead>
             <tr>
