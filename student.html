@@ -111,6 +111,14 @@
                         </tr>
                     `;
             }*/
+            if (!snapshot.val()["belt"].includes("Belt")) {
+              firebase
+                .database()
+                .ref("students/" + decodeURI(getUrlVars()["name"]))
+                .update({
+                  belt: snapshot.val()["belt"] + " Belt"
+                });
+            }
           });
       } else {
         setTimeout(() => {
