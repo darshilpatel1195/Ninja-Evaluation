@@ -43,30 +43,33 @@
       var provider = new firebase.auth.GoogleAuthProvider();
 
       firebase.auth().onAuthStateChanged(function(user) {
-        console.log(user)
+        console.log(user);
         if (user) {
-          firebase.database().ref("users").once("value", function(snapshot) {
-            var auth = false;
-            for(emailIndex in snapshot.val()){
-              if(emailIndex == user.email.replace('.', '%2E'))
-                auth = true;
-              console.log(snapshot.val()[emailIndex] + " : " + user.email)
-            }
-            console.log(auth)
-            if(!auth){
-              alert("This is not a Sensei account")
-              firebase.auth().signOut()
-            }
-          })
+          firebase
+            .database()
+            .ref("users")
+            .once("value", function(snapshot) {
+              var auth = false;
+              for (emailIndex in snapshot.val()) {
+                if (emailIndex == user.email.replace(".", "%2E")) auth = true;
+                console.log(snapshot.val()[emailIndex] + " : " + user.email);
+              }
+              console.log(auth);
+              if (!auth) {
+                alert("This is not a Sensei account");
+                firebase.auth().signOut();
+              }
+            });
           // User is signed in.
         } else {
-          if(confirm("You must be a sensei to use this website. Would you like to sign in?"))
+          if (
+            confirm(
+              "You must be a sensei to use this website. Would you like to sign in?"
+            )
+          )
             firebase.auth().signInWithRedirect(provider);
         }
       });
-
-
-
 
       var database = firebase.database();
 
@@ -78,84 +81,86 @@
         window.location.href = "./student.html";
       }
 
-      var globalUsers = {}
+      var globalUsers = {};
       firebase
         .database()
         .ref("students")
         .on("value", function(snapshot) {
           globalUsers = snapshot.val();
-          updateTable(snapshot.val())
+          updateTable(snapshot.val());
         });
 
-        function updateTable(data){
-          var table = document.getElementById("ninjas");
-          table.innerHTML = "";
-          var table2 = document.getElementById("ninjasArchive");
-          table2.innerHTML = "";
-          for (nin in data) {
-            var icon = "";
-            if (!data[nin]["archive"]) {
-              table.innerHTML +=
-                `
+      function updateTable(data) {
+        var table = document.getElementById("ninjas");
+        table.innerHTML = "";
+        var table2 = document.getElementById("ninjasArchive");
+        table2.innerHTML = "";
+        for (nin in data) {
+          var icon = "";
+          if (!data[nin]["archive"]) {
+            table.innerHTML +=
+              `
                 <tr onclick="showModal('` +
-                nin +
-                `')">
+              nin +
+              `')">
                       <th scope="row">` +
-                icon +
-                nin +
-                `</th>
+              icon +
+              nin +
+              `</th>
                 </tr>
             `;
-            }
           }
-          for (nin in data) {
-            var icon = "";
-            if (data[nin]["archive"]) {
-              icon = `<i style="margin-right:20px" class="fa fa-archive"></i>`;
-              table2.innerHTML +=
-                `
+        }
+        for (nin in data) {
+          var icon = "";
+          if (data[nin]["archive"]) {
+            icon = `<i style="margin-right:20px" class="fa fa-archive"></i>`;
+            table2.innerHTML +=
+              `
                   <tr onclick="showModal('` +
-                nin +
-                `')">
+              nin +
+              `')">
                         <th scope="row">` +
-                icon +
-                nin +
-                `</th>
+              icon +
+              nin +
+              `</th>
                   </tr>
               `;
-            }
           }
         }
+      }
 
-        function addSensei(){
-          var email = prompt("Sensei Gmail Account?").replace('.', '%2E');
-          firebase
-            .database()
-            .ref("users/")
-            .update({
-              [email]: true
-            }).then(()=>{
-              alert("Successfully Added")
-            }).catch(err,()=>{
-              alert(err)
-            });
-        }
-
+      function addSensei() {
+        var email = prompt("Sensei Gmail Account?").replace(".", "%2E");
+        firebase
+          .database()
+          .ref("users/")
+          .update({
+            [email]: true
+          })
+          .then(() => {
+            alert("Successfully Added");
+          })
+          .catch(err, () => {
+            alert(err);
+          });
+      }
     </script>
   </head>
   <body style="background-color: black">
     <div>
       <br />
-      <input
-      id="search"
-      style="margin-top:3px;margin-bottom:10px;"
-      type="text"
-      class="form-control"
-      placeholder="Search"
-      aria-label="Search"
-    />
-      <br />
       <div class="container">
+        <a class="btn btn-warning btn-lg " href="http://example.com">Sensei Guidelines</a>
+        <input
+          id="search"
+          style="margin-top:3px;margin-bottom:10px;"
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          aria-label="Search"
+        />
+      
         <button
           type="button"
           class="btn btn-info btn-lg btn-block"
@@ -182,8 +187,18 @@
         </thead>
         <tbody id="ninjasArchive"></tbody>
       </table>
-      <button class="btn btn-outline-danger btn-block btn-lg" onclick="firebase.auth().signOut()">Sign Out</button><br>
-      <button class="btn btn-outline-primary btn-block btn-lg" onclick="addSensei()">Add Sensei</button><br>
+      <button
+        class="btn btn-outline-danger btn-block btn-lg"
+        onclick="firebase.auth().signOut()"
+      >
+        Sign Out</button
+      ><br />
+      <button
+        class="btn btn-outline-primary btn-block btn-lg"
+        onclick="addSensei()"
+      >
+        Add Sensei</button
+      ><br />
     </div>
 
     <script>
