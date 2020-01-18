@@ -49,13 +49,13 @@
         window.location.href = "./student.html";
       }
 
-      if (getUrlVars()["name"])
-        console.log(getUrlVars()["name"])
+      if (getUrlVars()["name"]) {
+        console.log(getUrlVars()["name"]);
         firebase
           .database()
           .ref("students/" + decodeURI(getUrlVars()["name"]))
           .on("value", function(snapshot) {
-            console.log(snapshot.val())
+            console.log(snapshot.val());
             document.getElementById("name").value = snapshot.val()["name"];
             document.getElementById("belt").value = snapshot.val()["belt"];
             document.getElementById("ScratchUsername").value = snapshot.val()[
@@ -92,8 +92,7 @@
             document.getElementById("age").value = snapshot.val()["age"];
             var table = document.getElementById("projects");
             table.innerHTML = "";
-            if(snapshot.val()["belt"])
-              beltInput(snapshot.val()["belt"])
+            if (snapshot.val()["belt"]) beltInput(snapshot.val()["belt"]);
             /*for (projName in snapshot.val()[snapshot.val()["belt"]]) {
               var project = snapshot.val()[snapshot.val()["belt"]][projName];
               table.innerHTML +=
@@ -113,7 +112,7 @@
                     `;
             }*/
           });
-      else {
+      } else {
         setTimeout(() => {
           beltInput("White Belt");
           document.getElementById("lastBeltUp").innerText = "0 days ago";
@@ -192,7 +191,7 @@
       var project = [];
       var projectRubric = [];
       function beltInput(value) {
-        if (value == "White Belt"){
+        if (value == "White Belt") {
           project = [
             "01-01 ZOMBIE ISLAND",
             "01-02 FUN WITH SHAPES",
@@ -217,39 +216,91 @@
             "OPTIONAL - 07-02 AVOID THE BUGS (JAVASCRIPT)"
           ];
           projectRubric = [
-
-          "1. Learn the basics of how to start and stop games.",
-          "1.Understand how to arrange objects on the stage. <br>2. Understand how to resize radius of circle.",
-          "1. Show understanding of setting stage in the GDP. <br>2. This project combines all of the previous topics. Ask the student to be creative!",
-          "1.Understand the spin(); function.",
-          "1. Explain parameters. <br>2. Explain speed of rotation.",
-          "1. Explain the difference between this project and the last.",
-          "1. Explain what a negative 2nd parameter does.",
-          "1. This project combines all of the previous topics. Ask the student to be creative!",
-          "1. Explain if/then statements. <br>2. Explain boolean logic. <br>3. Explain moveX", "speedX", "and x functions..",
-          "1. This project continues the concepts from the previous activity. Encourage the student to do the bonus steps!",
-          "1. Explain the concept of debugging.",
-          "1. Explain the basics of movement code. <br>2. Explain how cloning works. <br>3. Explain the Mouse Click event.",
-          "1. Explain how y", "speedY", "and height functions work. <br>2. Explain how comments work.",
-          "1. Explain the isKeyPressed() function.",
-          "1. This project continues concepts from the previous project.",
-          "1. Explain conditionals.",
-          "1. Understand how to use “Search Assets.” <br>2. Encourage the student to follow step 33."
-
-          ]
+            "1. Learn the basics of how to start and stop games.",
+            "1.Understand how to arrange objects on the stage. <br>2. Understand how to resize radius of circle.",
+            "1. Show understanding of setting stage in the GDP. <br>2. This project combines all of the previous topics. Ask the student to be creative!",
+            "1.Understand the spin(); function.",
+            "1. Explain parameters. <br>2. Explain speed of rotation.",
+            "1. Explain the difference between this project and the last.",
+            "1. Explain what a negative 2nd parameter does.",
+            "1. This project combines all of the previous topics. Ask the student to be creative!",
+            "1. Explain if/then statements. <br>2. Explain boolean logic. <br>3. Explain moveX",
+            "speedX",
+            "and x functions..",
+            "1. This project continues the concepts from the previous activity. Encourage the student to do the bonus steps!",
+            "1. Explain the concept of debugging.",
+            "1. Explain the basics of movement code. <br>2. Explain how cloning works. <br>3. Explain the Mouse Click event.",
+            "1. Explain how y",
+            "speedY",
+            "and height functions work. <br>2. Explain how comments work.",
+            "1. Explain the isKeyPressed() function.",
+            "1. This project continues concepts from the previous project.",
+            "1. Explain conditionals.",
+            "1. Understand how to use “Search Assets.” <br>2. Encourage the student to follow step 33."
+          ];
         }
-        if (value == "Yellow Belt - V2"){
-          project =
-            ["GETTING STARTED",
-             "GETTING STARTED_COPY",
+        if (value == "Yellow Belt - V2") {
+          project = [
+            "GETTING STARTED",
+            "GETTING STARTED_COPY",
             "GETTING STARTED_COPY_COPY",
-             "SPIN A STAR", "MULTIPLE STARS", "SPIN ALL OBJECTS", "SPIN COUNTER CLOCKWISE", "SPIN THE SCENE", "COORDINATE COLLECTOR", "FOLLOW THE POINTER", "STAR SPINNER", "SIDE WALL BOUNCE", "LASER BEAM POINTER", "BASIC SHOOTER", "RAIN CATCHER PART 1", "PONG", "RAIN CATCHER PART 2", "BASIC PONG WITH KEYBOARD", "TWO PLAYER PONG", "MEASUREMENTS", "NINJA PUZZLE", "SPACE SHOOTER", "RAIN CATCHER PART 3", "SHOOTING STARS", "METEORS PART 1", "RAIN CATCHER PART 4", "METEORS PART 2", "RAIN CATCHER PART 5", "RAIN CATCHER PART 6", "HIDING NINJA", "HIDING NINJAS", "WHACK A NINJA", "NINJA SUPPLIES", "BUMPER CAR", "BALLOON PROTECT", "STARSCAPE", "ZAPPER PART 1", "NINJA SNACKS", "SHURIKEN TOSS PART 1", "SPACE TOUR", "SHURIKEN TOSS PART 2", "NINJA BATTLE", "ZAPPER PART 2", "WALL BLASTER", "METEORS DELUXE", "COLOR CHANGE", "WHAT'S INSIDE", "LIFT OFF", "ROLLING DICE", "BUBBLES", "ROBOT BUILDER", "ROCK PAPER SCISSORS", "BUG INVADERS", "CANDY SORT", "COCONUT CATCH"];
-          projectRubric = [
-
-          ]
+            "SPIN A STAR",
+            "MULTIPLE STARS",
+            "SPIN ALL OBJECTS",
+            "SPIN COUNTER CLOCKWISE",
+            "SPIN THE SCENE",
+            "COORDINATE COLLECTOR",
+            "FOLLOW THE POINTER",
+            "STAR SPINNER",
+            "SIDE WALL BOUNCE",
+            "LASER BEAM POINTER",
+            "BASIC SHOOTER",
+            "RAIN CATCHER PART 1",
+            "PONG",
+            "RAIN CATCHER PART 2",
+            "BASIC PONG WITH KEYBOARD",
+            "TWO PLAYER PONG",
+            "MEASUREMENTS",
+            "NINJA PUZZLE",
+            "SPACE SHOOTER",
+            "RAIN CATCHER PART 3",
+            "SHOOTING STARS",
+            "METEORS PART 1",
+            "RAIN CATCHER PART 4",
+            "METEORS PART 2",
+            "RAIN CATCHER PART 5",
+            "RAIN CATCHER PART 6",
+            "HIDING NINJA",
+            "HIDING NINJAS",
+            "WHACK A NINJA",
+            "NINJA SUPPLIES",
+            "BUMPER CAR",
+            "BALLOON PROTECT",
+            "STARSCAPE",
+            "ZAPPER PART 1",
+            "NINJA SNACKS",
+            "SHURIKEN TOSS PART 1",
+            "SPACE TOUR",
+            "SHURIKEN TOSS PART 2",
+            "NINJA BATTLE",
+            "ZAPPER PART 2",
+            "WALL BLASTER",
+            "METEORS DELUXE",
+            "COLOR CHANGE",
+            "WHAT'S INSIDE",
+            "LIFT OFF",
+            "ROLLING DICE",
+            "BUBBLES",
+            "ROBOT BUILDER",
+            "ROCK PAPER SCISSORS",
+            "BUG INVADERS",
+            "CANDY SORT",
+            "COCONUT CATCH"
+          ];
+          projectRubric = [];
         }
 
-        if (value == "Yellow Belt"){
+        if (value == "Yellow Belt") {
           project = [
             "01-01 RAIN CATCHER PART 1",
             "01-02 RAIN CATCHER PART 2",
@@ -288,7 +339,6 @@
             "PROVE YOURSELF - BUG INVADERS"
           ];
           projectRubric = [
-
             "1. Explain the moveY function",
             "1. Explains the isKeyPressed function <br>2. Explain the parameters of the isKeyPressed function",
             "1. Explains what the random function does",
@@ -324,10 +374,10 @@
             "Looks like the same bubbles that’s in White Belt, they can skip",
             "1. Create a new game from scratch using concepts learned throughout the belt",
             "1. Use of createTimer() and clone() to create enemies <br>similar to Rain Catcher <br>2. Explain how booleans are used to check for movement"
-          ]
+          ];
         }
 
-        if (value == "Orange Belt"){
+        if (value == "Orange Belt") {
           project = [
             "INTRODUCTION",
             "DOJO PRACTICE",
@@ -351,13 +401,10 @@
             "CIRCUS BOUNCE",
             "TOWER OF HANOI"
           ];
-          projectRubric = [
-            "Check this",
-            "Check that"
-          ]
+          projectRubric = ["Check this", "Check that"];
         }
 
-        if (value == "Green Belt"){
+        if (value == "Green Belt") {
           project = [
             "ROOFTOP RUNNER",
             "NINJA PUZZLE 2",
@@ -380,10 +427,7 @@
             "RHYTHM",
             "BARREL JUMP"
           ];
-          projectRubric = [
-            "Check this",
-            "Check that"
-          ]
+          projectRubric = ["Check this", "Check that"];
         }
         console.log(project);
         if (document.getElementById("name").value)
@@ -401,15 +445,17 @@
                   var num = 0;
                   for (projName in snapshot.val()[value]) {
                     var project = snapshot.val()[value][projName];
-                    var rub = projectRubric[num]?projectRubric[num]:"null"
-                    console.log(rub)
+                    var rub = projectRubric[num] ? projectRubric[num] : "null";
+                    console.log(rub);
                     console.log(project);
                     table.innerHTML +=
                       `<tr class="projectRow">
                             <th scope="row" class="name">` +
                       projName +
                       `</th>
-                      <th scope="row" class="rubric">`+rub+`</th>
+                      <th scope="row" class="rubric">` +
+                      rub +
+                      `</th>
                             <th scope="row"><input onclick="addNinjaBucks()" class="completed" type="checkbox" value="` +
                       projName +
                       `" ` +
@@ -420,7 +466,7 @@
                       `</div></th>
                       </tr>
                   `;
-                  num++;
+                    num++;
                   }
                 } else {
                   updateOutSideOfFirebase();
@@ -431,16 +477,23 @@
       }
 
       function addNinjaBucks() {
-        console.log(event.target)
-        console.log(event.target.checked)
-        if(event.target.checked && document.getElementById("AddNinjaBucks").checked){
+        console.log(event.target);
+        console.log(event.target.checked);
+        if (
+          event.target.checked &&
+          document.getElementById("AddNinjaBucks").checked
+        ) {
           var names = document.getElementById("name").value.split(" ");
           var name = names[0] + " " + names[names.length - 1].substring(0, 1);
           var number = 0;
-          if (document.getElementById("belt").value .includes( "White Belt")) number = 10;
-          if (document.getElementById("belt").value.includes("Yellow Belt")) number = 20;
-          if (document.getElementById("belt").value.includes("Orange Belt")) number = 30;
-          if (document.getElementById("belt").value .includes( "Green Belt")) number = 40;
+          if (document.getElementById("belt").value.includes("White Belt"))
+            number = 10;
+          if (document.getElementById("belt").value.includes("Yellow Belt"))
+            number = 20;
+          if (document.getElementById("belt").value.includes("Orange Belt"))
+            number = 30;
+          if (document.getElementById("belt").value.includes("Green Belt"))
+            number = 40;
           window.open(
             "https://nb.kihtrak.com/?name=" +
               encodeURIComponent(name) +
@@ -467,21 +520,23 @@
         var num = 0;
         console.log(project);
         for (projName of project) {
-          var rub = projectRubric[num]?projectRubric[num]:"null"
+          var rub = projectRubric[num] ? projectRubric[num] : "null";
           table.innerHTML +=
             `
                   <tr class="projectRow">
                         <th scope="row" class="name">` +
             projName +
             `</th>
-            <th scope="row" class="rubric">`+rub+`</th>
+            <th scope="row" class="rubric">` +
+            rub +
+            `</th>
                         <th scope="row"><input class="completed" onclick="addNinjaBucks()" type="checkbox" value="` +
             projName +
             `"/></th>
                         <th scope="row" class="comment"><div contentEditable style="background-color:white;color:black;border-radius:5px;"></div></th>
                   </tr>
               `;
-            num++
+          num++;
         }
       }
 
