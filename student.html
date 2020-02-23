@@ -55,7 +55,7 @@
         firebase
           .database()
           .ref("students/" + decodeURI(getUrlVars()["name"]))
-          .on("value", function(snapshot) {
+          .once("value", function(snapshot) {
             console.log(snapshot.val());
             document.getElementById("name").value = snapshot.val()["name"];
             document.getElementById("belt").value = snapshot.val()["belt"];
