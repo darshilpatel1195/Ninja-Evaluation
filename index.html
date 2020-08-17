@@ -1,242 +1,192 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Ninja Eval</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
+<head>
+  <meta charset="utf-8" />
+  <title>Ninja Eval</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
 
-    <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyANb9biku3lYEm0VF1u2JH1d2gcGMyIzmU",
-        authDomain: "ninja-info-c66c8.firebaseapp.com",
-        databaseURL: "https://ninja-info-c66c8.firebaseio.com",
-        projectId: "ninja-info-c66c8",
-        storageBucket: "ninja-info-c66c8.appspot.com",
-        messagingSenderId: "596134659505",
-        appId: "1:596134659505:web:8eb85502d929cf7b9d6990"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyANb9biku3lYEm0VF1u2JH1d2gcGMyIzmU",
+      authDomain: "ninja-info-c66c8.firebaseapp.com",
+      databaseURL: "https://ninja-info-c66c8.firebaseio.com",
+      projectId: "ninja-info-c66c8",
+      storageBucket: "ninja-info-c66c8.appspot.com",
+      messagingSenderId: "596134659505",
+      appId: "1:596134659505:web:8eb85502d929cf7b9d6990"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
-      var provider = new firebase.auth.GoogleAuthProvider();
+    var provider = new firebase.auth.GoogleAuthProvider();
 
-      firebase.auth().onAuthStateChanged(function(user) {
-        console.log(user);
-        if (user) {
-          firebase
-            .database()
-            .ref("users")
-            .once("value", function(snapshot) {
-              var auth = false;
-              for (emailIndex in snapshot.val()) {
-                if (emailIndex == user.email.replace(".", "%2E")) auth = true;
-                console.log(snapshot.val()[emailIndex] + " : " + user.email);
-              }
-              console.log(auth);
-              if (!auth) {
-                alert("This is not a Sensei account");
-                firebase.auth().signOut();
-              }
-            });
-          // User is signed in.
-        } else {
-          if (
-            confirm(
-              "You must be a sensei to use this website. Would you like to sign in?"
-            )
-          )
-            firebase.auth().signInWithRedirect(provider);
-        }
-      });
-
-      var database = firebase.database();
-
-      function showModal(name) {
-        window.location.href = "./student.html?name=" + name;
-      }
-
-      function newUser() {
-        window.location.href = "./student.html";
-      }
-
-      var globalUsers = {};
-      firebase
-        .database()
-        .ref("students")
-        .on("value", function(snapshot) {
-          globalUsers = snapshot.val();
-          updateTable(snapshot.val());
-        });
-
-      function updateTable(data) {
-        var table = document.getElementById("ninjas");
-        table.innerHTML = "";
-        var table2 = document.getElementById("ninjasArchive");
-        table2.innerHTML = "";
-        for (nin in data) {
-          var icon = "";
-          if (!data[nin]["archive"]) {
-            table.innerHTML +=
-              `
-                <tr onclick="showModal('` +
-              nin +
-              `')">
-                      <th scope="row">` +
-              icon +
-              nin +
-              `</th>
-                </tr>
-            `;
-          }
-        }
-        for (nin in data) {
-          var icon = "";
-          if (data[nin]["archive"]) {
-            icon = `<i style="margin-right:20px" class="fa fa-archive"></i>`;
-            table2.innerHTML +=
-              `
-                  <tr onclick="showModal('` +
-              nin +
-              `')">
-                        <th scope="row">` +
-              icon +
-              nin +
-              `</th>
-                  </tr>
-              `;
-          }
-        }
-      }
-
-      function addSensei() {
-        var email = prompt("Sensei Gmail Account?").replace(".", "%2E");
+    firebase.auth().onAuthStateChanged(function (user) {
+      console.log(user);
+      if (user) {
         firebase
           .database()
-          .ref("users/")
-          .update({
-            [email]: true
-          })
-          .then(() => {
-            alert("Successfully Added");
-          })
-          .catch(err, () => {
-            alert(err);
+          .ref("users")
+          .once("value", function (snapshot) {
+            var auth = false;
+            for (emailIndex in snapshot.val()) {
+              if (emailIndex == user.email.replace(".", "%2E")) auth = true;
+              console.log(snapshot.val()[emailIndex] + " : " + user.email);
+            }
+            console.log(auth);
+            if (!auth) {
+              localStorage.clear()
+              alert("This is not a Sensei account");
+              firebase.auth().signOut();
+            }
           });
+        // User is signed in.
+      } else {
+        if (
+          confirm(
+            "You must be a sensei to use this website. Would you like to sign in?"
+          )
+        )
+          firebase.auth().signInWithRedirect(provider);
       }
-    </script>
-  </head>
-  <body style="background-color: black">
-    <div>
-      <a class="btn btn-warning btn-sm " href="http://example.com"
-        >Sensei Guidelines</a
-      >
-      <div class="container">
-        <br />
-        <input
-          id="search"
-          style="margin-top:3px;margin-bottom:10px;"
-          type="text"
-          class="form-control"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button
-          type="button"
-          class="btn btn-info btn-lg btn-block"
-          onclick="newUser()"
-        >
-          Create New User
-        </button>
-      </div>
-      <br />
-      <table class="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-          </tr>
-        </thead>
-        <tbody id="ninjas"></tbody>
-      </table>
-      <br />
-      <table class="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Archived Ninjas</th>
-          </tr>
-        </thead>
-        <tbody id="ninjasArchive"></tbody>
-      </table>
-      <button
-        class="btn btn-outline-danger btn-block btn-lg"
-        onclick="firebase.auth().signOut()"
-      >
-        Sign Out</button
-      ><br />
-      <button
-        class="btn btn-outline-primary btn-block btn-lg"
-        onclick="addSensei()"
-      >
-        Add Sensei</button
-      ><br />
-    </div>
+    });
 
-    <script>
-      document.getElementById("search").addEventListener("input", function() {
-        if (document.getElementById("search").value == "") {
-          updateTable(globalUsers);
-        } else {
-          var newList = {};
-          for (nin in globalUsers) {
-            if (
-              nin
-                .toLocaleLowerCase()
-                .includes(
-                  document.getElementById("search").value.toLocaleLowerCase()
-                )
-            )
-              newList[nin] = globalUsers[nin];
-          }
-          updateTable(newList);
-        }
+    var database = firebase.database();
+
+    function showModal(name) {
+      window.location.href = "./student.html?name=" + name;
+    }
+
+    function newUser() {
+      window.location.href = "./student.html";
+    }
+
+    var globalUsers = {};
+    var cachedGlobalUsers = localStorage.getItem('globalUsers')
+    if(cachedGlobalUsers)
+      globalUsers = JSON.parse(globalUsers)
+    firebase
+      .database()
+      .ref("students")
+      .on("value", function (snapshot) {
+        localStorage.setItem('globalUsers', JSON.stringify(globalUsers))
+        globalUsers = snapshot.val();
+        updateTable(snapshot.val());
       });
-    </script>
 
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    function updateTable(data) {
+      var table = document.getElementById("ninjas");
+      table.innerHTML = "";
+      var table2 = document.getElementById("ninjasArchive");
+      table2.innerHTML = "";
+      for (nin in data) {
+        var icon = "";
+        if (!data[nin]["archive"]) {
+          table.innerHTML +=
+            `<tr onclick="showModal('` + nin + `')">
+              <th scope="row">` + icon + nin + `</th>
+            </tr>`;
+        }
+      }
+      for (nin in data) {
+        var icon = "";
+        if (data[nin]["archive"]) {
+          icon = `<i style="margin-right:20px" class="fa fa-archive"></i>`;
+          table2.innerHTML +=
+            `<tr onclick="showModal('` + nin +`')">
+                        <th scope="row">` +icon + nin +`</th>
+            </tr>`;
+        }
+      }
+    }
+
+    function addSensei() {
+      var email = prompt("Sensei Gmail Account?").replace(".", "%2E");
+      firebase
+        .database()
+        .ref("users/")
+        .update({
+          [email]: true
+        })
+        .then(() => {
+          alert("Successfully Added");
+        })
+        .catch(err, () => {
+          alert(err);
+        });
+    }
+  </script>
+</head>
+
+<body style="background-color: black">
+  <div>
+    <a class="btn btn-warning btn-sm " href="http://example.com">Sensei Guidelines</a>
+    <div class="container">
+      <br />
+      <input id="search" style="margin-top:3px;margin-bottom:10px;" type="text" class="form-control"
+        placeholder="Search" aria-label="Search" />
+      <button type="button" class="btn btn-info btn-lg btn-block" onclick="newUser()">
+        Create New User
+      </button>
+    </div>
+    <br />
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+        </tr>
+      </thead>
+      <tbody id="ninjas"></tbody>
+    </table>
+    <br />
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Archived Ninjas</th>
+        </tr>
+      </thead>
+      <tbody id="ninjasArchive"></tbody>
+    </table>
+    <button class="btn btn-outline-danger btn-block btn-lg" onclick="firebase.auth().signOut()">Sign Out</button><br />
+    <button class="btn btn-outline-primary btn-block btn-lg" onclick="addSensei()">Add Sensei</button><br />
+  </div>
+
+  <script>
+    document.getElementById("search").addEventListener("input", function () {
+      if (document.getElementById("search").value == "") {
+        updateTable(globalUsers);
+      } else {
+        var newList = {};
+        for (nin in globalUsers) {
+          if (nin.toLocaleLowerCase().includes(document.getElementById("search").value.toLocaleLowerCase()))
+            newList[nin] = globalUsers[nin];
+        }
+        updateTable(newList);
+      }
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
