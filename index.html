@@ -75,14 +75,16 @@
 
     var globalUsers = {};
     var cachedGlobalUsers = localStorage.getItem('globalUsers')
-    if(cachedGlobalUsers)
-      globalUsers = JSON.parse(globalUsers)
+    if(cachedGlobalUsers){
+      globalUsers = JSON.parse(cachedGlobalUsers)
+      updateTable(globalUsers)
+    }
     firebase
       .database()
       .ref("students")
       .on("value", function (snapshot) {
-        localStorage.setItem('globalUsers', JSON.stringify(globalUsers))
         globalUsers = snapshot.val();
+        localStorage.setItem('globalUsers', JSON.stringify(globalUsers))
         updateTable(snapshot.val());
       });
 
