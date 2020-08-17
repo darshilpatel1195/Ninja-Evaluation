@@ -74,11 +74,6 @@
     }
 
     var globalUsers = {};
-    var cachedGlobalUsers = localStorage.getItem('globalUsers')
-    if(cachedGlobalUsers){
-      globalUsers = JSON.parse(cachedGlobalUsers)
-      updateTable(globalUsers)
-    }
     firebase
       .database()
       .ref("students")
@@ -166,6 +161,10 @@
   </div>
 
   <script>
+    var cachedGlobalUsers = localStorage.getItem('globalUsers')
+    if(cachedGlobalUsers && JSON.stringify(globalUsers)=="{}"){
+      globalUsers = JSON.parse(cachedGlobalUsers)
+    }
     document.getElementById("search").addEventListener("input", function () {
       if (document.getElementById("search").value == "") {
         updateTable(globalUsers);
