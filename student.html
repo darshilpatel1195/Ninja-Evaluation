@@ -200,7 +200,7 @@
       var project = [];
       var projectRubric = [];
       function beltInput(value) {
-        fetch("package.json").then(response => return JSON.parse(response)).then(json => {
+        fetch("package.json").then(response => JSON.parse(response)).then(json => {
           project = Object.keys(json[value])
           projectRubric = []
           for(let rubric of json[value]){
