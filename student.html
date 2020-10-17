@@ -204,8 +204,8 @@
           project = Object.keys(json[value])
           console.log(json[value])
           projectRubric = []
-          for(let rubric of json[value]){
-            projectRubric.push(rubric)
+          for(let rubricIndex in json[value]){
+            projectRubric.push(json[value][rubricIndex])
           }
           console.log(project);
 
